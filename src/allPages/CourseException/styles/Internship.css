@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+
+.titdefault .inner-container {
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Drop shadow */
+    border: 1px solid #ddd; /* Border */
+    padding: 10px;
+}

@@ -1,0 +1,43 @@
+.hometable{
+    margin: 30px;
+    margin-top: 10px;
+    display: flex;
+    /* justify-content: center; */
+}
+.onlinehome{
+    margin: 20px;
+    background-color: var(--background);
+    padding-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--Bordercolor);
+}
+.titlehm{
+    margin: 30px;
+    margin-bottom: 20px;
+    color: var(--primaryBlue );
+    letter-spacing: 1px;
+}
+.upldBTN{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.titleBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.createDiv{
+    margin: 30px;
+    margin-bottom: 20px;
+}
+.CreateBtn{
+    padding: 5px;
+    border: none;
+    background-color:  var(--secondaryBlue);
+    color: var(--basicTextColor);
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}

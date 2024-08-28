@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+
+.ApplyBtn{
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    background-color:  var(--heading-crsExp);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: rgba(63, 70, 147, 0.2) 0px 2px 8px 0px;
+}
+
+.ApplyBtnDisabled{
+    padding: 5px;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    border-radius: 5px;
+    padding-left: 10px;
+    box-shadow: rgba(63, 70, 147, 0.2) 0px 2px 8px 0px;
+    padding-right: 10px;
+}
+.textAddHmApply{
+    width: 50vh;
+}
+
+.restrictDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 1040px) {
+    .textAddHmApply{
+        width: 34vh;
+    }
+}

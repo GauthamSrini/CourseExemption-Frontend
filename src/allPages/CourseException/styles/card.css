@@ -1,0 +1,35 @@
+.card {
+    border-radius: 10px;
+    width: 250px;
+    transition: all 2s ease-out;
+    margin: 5px;
+    line-height: 25px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.card-image-container{
+    display: flex;
+    width: 100%;
+}
+
+.card-image{
+    overflow: hidden;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.card-content{
+    margin: 10px;
+}
+
+.card-title{
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-body{
+    font-weight: 550;
+}

@@ -1,0 +1,176 @@
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    color: var(--text-black);
+}
+.field{
+   display: flex;
+   gap: 10px;
+}
+.fldClm{
+    width: 22vh !important;
+    height: auto;
+}
+.fldData{
+    width: 80%;
+    height: auto;
+    overflow-wrap: break-word;
+    overflow-x: auto;
+}
+.fieldbtn{
+    margin-top: 10px;
+    display: flex;
+    gap: 20px;
+}
+.btnApprove{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 3px;
+    background-color:var(--secondaryBlue );
+}
+.btnRemove{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(250, 41, 41);
+}
+.btnInitiated{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(49, 46, 46);
+}
+.rm{
+    font-family: 'Poppins', sans-serif;
+    color: var(--secondaryBlue);
+    font-weight: bold;
+}
+.coursesubtit{
+    font-weight: bold;
+    padding-top: 10px;
+}
+.remarkArea{
+  border: 1px solid transparent;
+  outline: none;
+  border-radius: 4px;
+  padding: 8px;
+  border: 1px solid #ccc; 
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.remarkArea:focus{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.success{
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+.tick{
+    margin-top: 5px;
+}
+.remar{
+    color: rgb(250, 41, 41) ;
+    width: 80%;
+    height: auto;
+    overflow-wrap: break-word;
+    overflow-x: auto;
+}
+.pdficon{
+    display: flex;
+    cursor: pointer;
+    color: blue;
+    width: 80%;
+    height: auto;
+}
+
+.conformBtnApprove{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 3px;
+    background-color:var(--secondaryBlue);
+}
+
+.conformBtnRemove{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(250, 41, 41);
+}
+
+.btnDisable{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 3px;
+    background-color:rgb(62, 62, 230);
+}
+
+.cross{
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Poppins', sans-serif;
+}
+
+.modalBox{
+    top: '50%';
+    left: '50%';
+    transform: 'translate(-50%, -50%)';
+    width: 300; 
+    max-width: 350;
+    background-color: 'background.paper';
+    box-shadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px;';
+    padding: 4;
+    border-radius:'10px';
+}
+.BasicModal{
+    transition-property: all;
+    transition-duration: 2s;
+    transition-delay: 1s;
+}
+
+.CourseTit{
+    font-weight: bold;
+    font-size: 17px;
+    
+    color: var(--secondaryBlue);
+}
+
+@media (min-width: 1500px) {
+    .modal{
+        gap: 15px;
+    }
+}

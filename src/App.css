@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* :root {
+  --hover: #FBFBFB;
+  --button: #116ACC;
+  --card: #FEFEFE;  
+  --card-1: #FEFEFE;
+  --card-2: #FEFEFE;
+  --text-black: #2B3674;
+  --text-grey: #68709B;
+  --background: #F4F7FE;
+  --background-1: #FBFBFB;
+  --background-2: #FBFBFB;
+  --text-box: #9CA3AF;
+}
+
+
+
+.dark-theme {
+  --hover: #7B4F8E;
+  --button: #c491ff80;
+  --card: #D7C5DF;
+  --card-1: #B794C0;
+  --card-2: #c491ff27;
+  --text-black: #FFFFFF;
+  --text-grey: #909090;
+  --background: #2c2239;
+  --background-1: #4a3a5f9f;
+  --background-2: #4D3B64;
+} */
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ::-webkit-scrollbar-thumb {
+  background-color: var(--card);
+  border-radius: 6px;
+} */
+
+/* ::-webkit-scrollbar-track {
+  background-color: var(--background);
+} */
+
+/* ::-webkit-scrollbar-horizontal {
+  height: 2px;
+} */
+
+/* ::-webkit-scrollbar-thumb:horizontal {
+  background-color: var(--card);
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background-color: var(--card);
+}    */
+
+
+
+
+
+
+
+
+
+

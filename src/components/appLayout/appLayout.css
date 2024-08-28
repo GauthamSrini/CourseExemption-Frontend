@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+
+.total-app-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.v-nav-and-content {
+    flex: 10;
+    display: flex;
+    flex-direction: row;
+}
+
+.h-navbar {
+    background-color: var(--background);
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    color: var(--text-black);
+    border-bottom: 1px solid var(--Bordercolor);
+}
+
+.v-navbar {
+    width: 237px;
+    height: 92vh;
+    background-color: var(--background);
+    overflow-x: hidden;
+    border-right: 1px solid var(--Bordercolor);
+}
+
+.content {
+    flex: 5.5;
+    height: 92vh;
+    overflow-y: auto;
+    background-color: var(--background-2);
+    color: var(--text-black);
+}
+
+
+
+@media (max-width: 1040px) {
+    .v-navbar {
+        display: none;
+    }
+
+    .v-navbar.open {
+        display: block;
+        position: absolute;
+        margin-top: 0px;
+        z-index:1000;
+        height: 92vh;
+        transition: all 2s ease;
+    }
+}
+
+
+.content-with-margin {
+    /* width: 95.6%;
+    height: 96.5%; */
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+

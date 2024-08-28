@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+
+.tree {
+    width: 850px;
+}
+.tree ul {
+    padding-top: 15px; 
+    position: relative;
+}
+
+.tree li {
+    float: left; text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 14px 5px 0 5px;
+    overflow-x: scroll;
+}
+
+.tree li::before, .tree li::after{
+    content: '';
+    position: absolute; top: 0; right: 50%;
+    border-top: 1px solid var(--Bordercolor);
+    width: 50%; height: 10px;
+}
+.tree li::after{
+    right: auto; left: 50%;
+    border-left: 1px solid var(--Bordercolor);
+}
+
+.tree li:only-child::after, .tree li:only-child::before {
+    display: none;
+}
+
+.tree li:only-child{ padding-top: 0;}
+
+.tree li:first-child::before, .tree li:last-child::after{
+    border: 0 none;
+}
+.tree li:last-child::before{
+    border-right: 1px solid var(--Bordercolor);
+    border-radius: 0 5px 0 0;
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+    border-radius: 5px 0 0 0;
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+}
+.tree ul ul::before{
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    border-left: 1px solid var(--Bordercolor);
+    width: 0; height: 16px;
+}
+.tree li div{
+    border: 1px solid var(--Bordercolor);
+    padding: 5px 8px;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11.5px;
+    transition: all ease-in 0.3s;
+    display: inline-block;
+    border-radius: 5px;
+    overflow-x: scroll;
+}
+.tree li div:hover, .tree li div:hover+ul li div {
+    background-color: var(--primaryBlue);
+    color: white;  
+    cursor: pointer;
+}
+.tree li div:hover+ul li::after, 
+.tree li div:hover+ul li::before, 
+.tree li div:hover+ul::before, 
+.tree li div:hover+ul ul::before{
+    border-color:  #94a0b4;
+}
+
+/* @media (min-width: 1600px) {
+    .tree li div{
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+} */
+
+    /* @media (max-width : 1300px){
+        .tree li div{
+            font-size: 10px;
+        }
+        .tree {
+            width: 700px;
+        }
+    }  */

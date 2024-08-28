@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+.overall{
+    height: 90%;
+    overflow-y: scroll;
+    margin: 20px;
+    background-color: var(--background);
+    padding-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.divTit{
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.searchBarDivReport{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+    margin-top: 10px;
+}
+.selectBtnGroup{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.filterDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10px;
+}
+.tableTitle{
+    margin-left: 30px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.inpFilter{
+    margin-top: 10px;
+}
+.filterInp{
+    width: 95%;
+}
+.iconRep{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.iconfilterRep{
+    background-color: var(--secondaryBlue);
+    color: #ecf5fa;
+    border-radius: 5px;
+    padding: 2px;
+}
+.modeOption{
+    margin-right: 10px;
+}
+.searchAndFilter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ReportsSerach{
+    width: 32vw;
+}
+.Active{
+    padding: 7px;
+    margin-top: 5px;
+    background-color:var(--ReportChoiceBtn);
+    color: white;
+    width: 105px;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+.NonActive{
+    padding: 7px;
+    margin-top: 5px;
+    border: 1px solid var(--ReportChoiceBtn);
+    background-color: white;
+    width: 105px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+}
+.Active:hover{
+    padding: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.NonActive:hover{
+    padding: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.TableTitleDiv{
+    display: flex;
+    justify-content: space-between;
+}
+.reportBtn{
+    padding: 5px 10px 5px 10px;
+    border: none;
+    background-color:  var(--primaryBlue);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-right: 30px;
+}
+.FilterSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.ActiveAcademic{
+    padding: 7px;
+    margin-top: 5px;
+    background-color:var(--ReportChoiceBtn);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+.NonActiveAcademic{
+    padding: 7px;
+    margin-top: 5px;
+    border: 1px solid var(--ReportChoiceBtn);
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+}
+
+.filterBtnsDiv{
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 10px;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.filtApply{
+    padding: 7px;
+    margin-top: 5px;
+    background-color: var(--primaryBlue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+.filtClear{
+    padding: 7px;
+    margin-top: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+  
+@media (max-width: 1040px) {
+    .overall{
+        width: 90%;
+    }
+    .modeOption{
+       width: 15vh;
+       margin-bottom: 10px;
+    }
+    .searchBarDivReport{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .ReportsSerach{
+        width: 73vw;
+    }
+    .selectBtnGroup{
+        margin-top: 10px;
+    }
+    .Active{
+        font-size: smaller;
+        width: 100px;
+    }
+    .NonActive{
+        font-size: smaller;
+        width: 100px;
+    }
+    .ActiveAcademic{
+        font-size: smaller;
+    }
+    .NonActiveAcademic{
+        font-size: smaller;
+    }
+    .filterInp{
+        width: 29vh;
+    }
+}

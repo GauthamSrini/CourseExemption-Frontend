@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+.homeMainDiv{
+    margin: 10px;
+    width: calc(100% - 30px);
+    height: calc(100% - 20px);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: scroll;
+}
+.content-cards{
+    margin: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.doughnut{
+    border: 1px solid var(--Bordercolor);
+    background-color: var(--background);
+    border-radius: 5px;
+    display: flex;
+    padding-top: 10px;
+}
+
+.titGraph{
+    padding: 8px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    color: var(--primaryBlue);
+    background-color: white;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.MainTit{
+    font-size: large;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--basicTextColor);
+    background-color: var(--background);
+    border: 1px solid var(--Bordercolor);
+    padding: 8px;
+    margin-right: 10px;
+    text-align: center;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+.expStatus{
+    padding: 10px;
+}
+.rulesMainDiv{
+    padding-bottom: 17px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--Bordercolor);
+    background-color: var(--background);
+    border-radius: 5px;
+}
+.divPart2{
+    display: flex;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 0;
+    gap: 10px;
+}
+
+.max{
+    border: 1px solid black;
+}
+.addOn{
+    border: 1px solid black;
+}
+.OneCredit{
+    border: 1px solid black;
+}
+.NptelExp{
+    padding: 5px;
+    border: 1px solid var(--Bordercolor);
+    border-radius: 5px;
+    margin: 5px;
+    margin-bottom: 7px;
+    display: flex;
+}
+.OneCreditExp{
+    padding: 5px;
+    border: 1px solid var(--Bordercolor);
+    border-radius: 5px;
+    margin: 5px;
+    margin-bottom: 7px;
+
+}
+.addOnExp{
+    padding: 5px;
+    border: 1px solid var(--Bordercolor);
+    border-radius: 5px;
+    margin: 5px;
+    margin-bottom: 7px;
+
+}
+.titExempted{
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px; 
+}
+.gauge{
+    width: 180px;
+    max-width: 200px;
+    min-width: 30%;
+}
+.RuleShort{
+    display: none;
+}
+.gaugeComponent .MuiCircularProgress-root {
+    color: yellow !important; /* Your custom color */
+  }
+  
+.gaugeComponent .MuiTypography-root {
+    fill: #ff5722; /* Your custom text color */
+  }
+.treeHome{
+    overflow: scroll;
+    width: 53vw;
+}
+
+
+.button {
+    /* display: inline-block;
+    font-weight: bold;
+    padding: 8px;
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    position: relative;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    color: var(--primaryBlue);
+    text-decoration: none;
+    transition: 0.3s ease all;
+    z-index: 1; */
+    font-size: large;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--basicTextColor);
+    background-color: var(--background);
+    border: 1px solid var(--Bordercolor);
+    padding: 8px;
+    display: inline-block;
+    margin-bottom: 10px;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+
+
+
+@media (max-width: 600px) {
+    .content-cards{
+        flex-direction: column;
+        overflow-y: scroll;
+        gap: 20px;
+    }
+    .homeMainDiv{
+        overflow-y: scroll;
+    }
+    .divPart2{
+        flex-direction: column;
+    }
+    .gauge{
+        width: 70%;
+        margin: 5px;
+        margin: auto;
+    }
+    .expStatus{
+        padding-top: 0;
+        margin: 10px;
+    }
+    .rulesMainDiv{
+        overflow-x: scroll !important;
+    }
+    .expOptions{
+        display: flex;
+        flex-direction: column;
+    }
+    .treeHome{
+        width: 89vw;
+        text-align: center;
+    }
+    .doughnut{
+    height: fit-content;
+    
+    }
+}
+
+/* @media (min-width: 1600px) {
+    .doughnut{
+        width: 60vh;
+        height: 30vh;
+        padding: 10px;
+        padding-right: 0;
+    }
+    .homeMainDiv{
+        padding-left: 30px;
+        padding-top: 20px;
+    }
+    .content-cards{
+        column-gap: 30px;
+    }
+    .NptelExp,.OneCreditExp,.addOnExp{
+        margin-bottom: 10px;
+    }
+    .gauge{
+        padding: 20px;
+    }
+    
+    
+} */

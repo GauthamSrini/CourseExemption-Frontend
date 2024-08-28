@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+.homeCard{
+    width: 18.3vw;
+    min-width: 150px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: var(--background);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.cardAction{
+    background-color: var(--background);
+    padding: 5px;
+}
+.cardTit{
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);    
+    font-size: 15px;
+    display: flex;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow:clip; /* Add ellipsis (...) to indicate text overflow */
+    color: var(--basicTextColor);
+}
+
+
+@media (max-width: 1040px) {
+    .homeCard{
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 1600px) {
+    .homeCard {
+        width: 335px; 
+    }
+    
+}
+
+

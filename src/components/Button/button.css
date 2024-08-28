@@ -1,0 +1,21 @@
+.custum-button {
+    margin: 5px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--button);
+    color: var(--button-text-color);
+    font-weight: 600;
+    box-shadow: 0px 0px 2px black;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.custum-button:hover {
+    background-color: var(--hover);
+
+}
+
+.custum-button:active {
+    background-color: var(--button);
+}

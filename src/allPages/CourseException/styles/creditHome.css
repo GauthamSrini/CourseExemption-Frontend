@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Manrope:wght@400;500&family=Poppins&display=swap');
+
+.creditHomeMain{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    background-color: var(--background);
+    padding-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.CourseBtn{
+    padding: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.CourseBtnActive{
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    color: white;
+    background-color: var(--secondaryBlue);
+    cursor: pointer;
+}
+.btnapply{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 3px;
+    background-color:rgb(62, 62, 230);
+}
+.btncancel{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(250, 41, 41);
+}
+.modalbtns{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+}
+.expblock{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.courseExp{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--heading-crsExp);
+}
+.tit{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--heading-crsExp);
+}
+.btn{
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.btn button{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20;
+}
+.respblock{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    color: var(--heading-crsExp);
+}
+
+.onecreditSelection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.oncreditField{
+    width: 20vw;
+}
+.expBtnsReasons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btnReason{
+    display: flex;
+    border: 1px solid rgb(243, 243, 243);
+    margin-left: 10px;
+    background-color: rgb(243, 243, 243);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+    padding: 5px;
+    color: rgb(50, 50, 175);
+}
+
+.Approval1Btn{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(67, 102, 172);
+}
+.Approval2Btn{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(241, 206, 66);
+}
+.Approval3Btn{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(211, 102, 231);
+}
+.Approval4Btn{
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: rgb(222, 238, 121);
+}
+.oneCreditModal{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+@media (max-width: 1040px) {
+    .onecreditSelection{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        gap: 8px;
+    }
+    .oncreditField{
+        width: 90%;
+    }
+}

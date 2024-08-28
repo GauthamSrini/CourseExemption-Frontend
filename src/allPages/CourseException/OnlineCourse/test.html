@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Form</title>
+<script>
+  function validateDateInput(dateInput) {
+    const dateValue = dateInput.value;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dateValue)) {
+      alert("Please enter a date in yyyy-mm-dd format");
+      dateInput.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function validateForm() {
+    const startDateInput = document.getElementById("start_date");
+    const endDateInput = document.getElementById("end_date");
+    const examDateInput = document.getElementById("exam_date");
+
+    return validateDateInput(startDateInput) &&
+           validateDateInput(endDateInput) &&
+           validateDateInput(examDateInput);
+  }
+</script>
+</head>
+<body>
+<h2>Registration Form</h2>
+<form action="http://localhost:5001/api/ce/oc/registered" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <label for="course">Course:</label><br>
+    <input type="text" id="course" name="course" required><br>
+    <label for="student">Student:</label><br>
+    <input type="text" id="student" name="student" required><br>
+    <label for="type">Type:</label><br>
+    <input type="text" id="type" name="type" required><br>
+    <label for="start_date">Start Date:</label><br>
+    <input type="text" id="start_date" name="start_date" required pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd"><br>
+    <label for="end_date">End Date:</label><br>
+    <input type="text" id="end_date" name="end_date" required pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd"><br>
+    <label for="exam_date">Exam Date:</label><br>
+    <input type="text" id="exam_date" name="exam_date" required pattern="\d{4}-\d{2}-\d{2}" placeholder="yyyy-mm-dd"><br>
+    <label for="mark">Mark:</label><br>
+    <input type="text" id="mark" name="mark" required><br>
+    <label for="certificate_url">Certificate URL:</label><br>
+    <input type="text" id="certificate_url" name="certificate_url" required><br>
+    <label for="certificate_path">Certificate PDF:</label><br>
+    <input type="file" id="certificate_path" name="pdf" required accept="application/pdf"><br><br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

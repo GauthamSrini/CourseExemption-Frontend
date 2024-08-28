@@ -1,0 +1,11 @@
+.CourseTitle{
+    margin-top: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.quesDocOneCr{
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    margin-bottom: 20px;
+}

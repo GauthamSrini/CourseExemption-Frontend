@@ -1,0 +1,29 @@
+.inputbox {
+    padding: 8px;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    width: 44.8vw;
+    outline: none;
+}
+.inputbox:focus{
+    border: 1.7px solid #2684FF;
+}
+
+.inputNumberMultiForm{
+    padding: 8px;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    width: 28.8vw;
+    outline: none;
+}
+
+.inputNumberMultiForm:focus{
+    border: 1.7px solid #2684FF;
+}
+
+
+@media (max-width: 800px) {
+    .inputbox{
+        width:62vw;
+    }
+}

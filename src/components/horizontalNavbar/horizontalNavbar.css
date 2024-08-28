@@ -1,0 +1,117 @@
+.website-name {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-left: 20px;
+    margin-left: 10px;
+    color: var(--basicTextColor);
+}
+
+
+.total-h-navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1000;
+    /* margin: 0px 10px; */
+}
+
+.nav-list-items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+}
+
+.nav-list-items>li {
+    list-style: none;
+    font-weight: 600;
+}
+
+.h-nav-icons {
+    color: var(--basicTextColor);
+    padding: 1px;
+    border-radius: 5px;
+    transition: all 0.2s;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+
+.h-nav-icons:hover {
+    background-color: var(--basicTextColor);
+    color: var(--background);
+}
+
+.h-nav-menu-icon {
+    color: var(--basicTextColor);
+    padding: 1px;
+    border-radius: 5px;
+    transition: all 0.2s;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.menu-open-icon {
+    display: none;
+}
+
+
+@media (max-width: 1040px) {
+    .menu-open-icon {
+        display: block;
+    }
+
+    .iqac-title {
+        display: none;
+    }
+
+    .website-name {
+        padding-left: 10px;
+    }
+
+    .total-v-navbar {
+        margin-top: 0px;
+    }
+}
+
+
+/* 
+.css-j204z7-MuiFormControlLabel-root {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    margin-left: 0px;
+    margin-right: opx;
+
+}
+
+.css-mq9ich-MuiSwitch-root {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    width: 58px;
+    height: 38px;
+    overflow: hidden;
+    padding: 12px;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    z-index: 0;
+    vertical-align: middle;
+    width: 62px;
+    height: 34px;
+    padding: 7px;
+    margin: 8px;
+*/

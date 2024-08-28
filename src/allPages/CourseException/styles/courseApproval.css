@@ -1,0 +1,96 @@
+.titFac{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+.tableDefault{
+    margin: 20px;
+    background-color: var(--background);
+    padding-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 18px -128px 21px rgba(173, 145, 202, 0.01), 10px -12px 21.1px rgba(173, 145, 202, 0.05), 4px 12px 13px rgba(173, 145, 202, 0.09), 1px 3px 7px rgba(173, 145, 202, 0.1);    
+}
+.notify{
+    color: var(--secondaryBlue);
+    cursor: pointer;
+}
+.subtit{
+    margin: 30px;
+    text-decoration: underline;
+}
+.icon{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.iconfilter{
+    background-color: var(--secondaryBlue);
+    color: #ecf5fa;
+    border-radius: 5px;
+    padding: 2px;
+}
+.dropdown{
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 10px;
+    padding-left: 15px;
+}
+.drop{
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+    margin-right: 30px;
+}
+.ti{
+    margin: 30px;
+    margin-bottom: 0;
+    display: flex;
+    color: var(--primaryBlue);
+}
+.op1{
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+.op2{
+    cursor: pointer;
+}
+.op1:hover{
+    color:  rgb(112, 112, 211);
+}
+.op2:hover{
+    color:  rgb(112, 112, 211);
+}
+.titl{
+    margin: 30px;
+    margin-top: 0px;
+    font-size: 16px;
+    text-decoration: underline;
+    padding-bottom: 2px;
+}
+
+.filtermenu{
+    margin: 25px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.revokeBtn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.NotifyModal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.warningIcon{
+    height: 30px;
+}
+
+.menuItem{
+    font-family: cursive;
+}
