@@ -13,15 +13,15 @@ The problem of manually handling course exemptions was prevalent at our college,
 
 This project is powered by a modern tech stack that ensures performance, security, and scalability:
 
-**Frontend**: React.js
+- **Frontend**: React.js
 
-**Backend**: Node.js with Express.js
+- **Backend**: Node.js with Express.js
 
-**Database**: MySQL
+- **Database**: MySQL
 
-**Authentication**: Google Authentication (OAuth 2.0)
+- **Authentication**: Google Authentication (OAuth 2.0)
 
-**Security**: JWT Token-based Authentication & Middleware for API protection
+- **Security**: JWT Token-based Authentication & Middleware for API protection
 
 
 ## 🔒 Security Features
