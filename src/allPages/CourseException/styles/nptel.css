@@ -77,6 +77,7 @@
 .textFieldMultiForm{
     width: 30vw;
 }
+
 .numberStudentForm{
     width: 28.5vw;
 }
@@ -113,6 +114,19 @@
 .pdf-upload-button:hover{
     border: 1px solid var(--secondaryBlue);
     color: var(--secondaryBlue);
+}
+#pdf-upload::file-selector-button{
+    padding: 5px 15px;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px dashed var(--navIconDefault);
+    border-spacing: 10px;
+    color: var(--basicTextColor);
+    margin-right: 10px;
+}
+#pdf-upload::-webkit-file-name-text{
+    color: green;
 }
 .EXPsubmits{
     display: flex;

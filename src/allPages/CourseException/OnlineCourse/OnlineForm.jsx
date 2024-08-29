@@ -129,11 +129,15 @@ const OnlineForm = () => {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [courselist, setCourselist] = useState([]); // common
 
+  // special case useStates
+  const [elective1_id,setElective1_id] = useState(null)
+  const [elective2_id,setElective2_id] = useState(null)
+  const [marksheet,setMarksheet] = useState(null)
+
   /// in depth details of the course 1 selection (special case)
   const [academic_year_course_1, setAcademic_year_course_1] = useState(null);
   const [semester_course_1, setSemester_course_1] = useState(null);
-  const [semester_options_course_1, set_semester_options_course_1] =
-    useState(null);
+  const [semester_options_course_1, set_semester_options_course_1] = useState(null);
   const [start_date_course_1, set_start_date_course_1] = useState(null);
   const [end_date_course_1, set_end_date_course_1] = useState(null);
   const [exam_date_course_1, set_exam_date_course_1] = useState(null);
@@ -143,12 +147,12 @@ const OnlineForm = () => {
   const [marks_course_1, set_marks_course_1] = useState(null);
   const [cerf_type_course_1, set_cerf_type_course_1] = useState(null);
   const [selectedPdfC1, setSelectedPdfC1] = useState(null);
+  const [cerf_url_course_1,set_cerf_url_course_1] = useState(null)
 
   /// in depth details of the course 2 selection (special case)
   const [academic_year_course_2, setAcademic_year_course_2] = useState(null);
   const [semester_course_2, setSemester_course_2] = useState(null);
-  const [semester_options_course_2, set_semester_options_course_2] =
-    useState(null);
+  const [semester_options_course_2, set_semester_options_course_2] = useState(null);
   const [start_date_course_2, set_start_date_course_2] = useState(null);
   const [end_date_course_2, set_end_date_course_2] = useState(null);
   const [exam_date_course_2, set_exam_date_course_2] = useState(null);
@@ -158,12 +162,12 @@ const OnlineForm = () => {
   const [marks_course_2, set_marks_course_2] = useState(null);
   const [cerf_type_course_2, set_cerf_type_course_2] = useState(null);
   const [selectedPdfC2, setSelectedPdfC2] = useState(null);
+  const [cerf_url_course_2,set_cerf_url_course_2] = useState(null)
 
   /// in depth details of the course 3 selection (special case)
   const [academic_year_course_3, setAcademic_year_course_3] = useState(null);
   const [semester_course_3, setSemester_course_3] = useState(null);
-  const [semester_options_course_3, set_semester_options_course_3] =
-    useState(null);
+  const [semester_options_course_3, set_semester_options_course_3] = useState(null);
   const [start_date_course_3, set_start_date_course_3] = useState(null);
   const [end_date_course_3, set_end_date_course_3] = useState(null);
   const [exam_date_course_3, set_exam_date_course_3] = useState(null);
@@ -173,6 +177,7 @@ const OnlineForm = () => {
   const [marks_course_3, set_marks_course_3] = useState(null);
   const [cerf_type_course_3, set_cerf_type_course_3] = useState(null);
   const [selectedPdfC3, setSelectedPdfC3] = useState(null);
+  const [cerf_url_course_3,set_cerf_url_course_3] = useState(null)
 
   // created for the multistep modal
   const stages1 = ["Course 1", "Course 2", "Elective"];
@@ -466,7 +471,7 @@ const OnlineForm = () => {
     setSelectedSem(selectedOption.value);
   };
 
-  const handleCertificateType = (selectedOption) => {
+  const handleCertificateType = (selectedOption,setCertificateType) => {
     setCertificateType(selectedOption.value);
   };
 
@@ -637,8 +642,10 @@ const OnlineForm = () => {
     setSelectedPdfRp(event.target.files[0]);
   };
 
-  const handleSpcialCoursesPdf = (event, setSelectedPdfC1) => {
-    setSelectedPdfC1(event.target.files[0]);
+  const handleSpcialCoursesPdf = (event, setSelectedPdf) => {
+    event.stopPropagation(); // Prevent event bubbling
+    setSelectedPdf(event.target.files[0]);
+    console.log(event);
   };
 
   //To Handle the selection of the Course Name
@@ -676,16 +683,13 @@ const OnlineForm = () => {
   };
 
   // Hnadling the certificate urls
-  const handleCerfUrlExp = (event) => {
-    setCertificateUrlExp(event.target.value);
-  };
 
-  const handleCerfUrlRp = (event) => {
-    setCertificateUrlRp(event.target.value);
-  };
+  const handleCerfUrls = (event,setCertificateUrl)=>{
+    setCertificateUrl(event.target.value);
+  }
 
   // Handling the Selected Elective
-  const handleElective = (selectedOption) => {
+  const handleElective = (selectedOption,setElectiveId) => {
     setElectiveId(selectedOption.value);
   };
 
@@ -811,7 +815,7 @@ const OnlineForm = () => {
       formData.append("student", student);
       formData.append("type", type);
       formData.append("academic_year", selectedAcademicYear);
-      formData.append("semester", selectedSem);
+      formData.append("semester", selectedSem); 
       formData.append("start_date", fmtStartDate);
       formData.append("end_date", fmtEndDate);
       formData.append("exam_date", fmtExamDate);
@@ -871,6 +875,15 @@ const OnlineForm = () => {
       // Prevent the default action for non-numeric keys
       event.preventDefault();
     }
+  };
+
+  // Function to handle the input of text ----- just for test
+  const handleInputKeyDownMultiModal = (event) => {
+    // Log the key pressed (for debugging or tracking purposes)
+    console.log(`Key pressed: ${event.key} (KeyCode: ${event.keyCode})`);
+    
+    // Do nothing to restrict input; all keys are allowed.
+    // You can add custom logic here if you want to handle specific key events.
   };
 
   // handling the close of response modal
@@ -1055,12 +1068,129 @@ const OnlineForm = () => {
         !fmt_end_date_course_2 ||
         !fmt_exam_date_course_2 ||
         !marks_course_1 ||
-        !marks_course_2
+        !marks_course_2 ||
+        !elective1_id ||
+        !selectedPdfC1 ||
+        !selectedPdfC2 ||
+        !cerf_type_course_1 ||
+        !cerf_type_course_2 ||
+        !marksheet ||
+        !cerf_url_course_1 ||
+        !cerf_url_course_2
       ) {
         alert("Fill out all the Fields");
         return;
       }
-    } catch {}
+      // Fetch active applications
+      const activeApplicationsResponse = await axios.get(
+        `${apiBaseUrl}/api/ce/oc/AllActiveApplications?student=${student}`,
+        { withCredentials: true }
+      );
+
+      const { total, nptel } = activeApplicationsResponse.data;
+
+      // Check if total applications are less than 4
+      if (total >= 4 || nptel>=2) {
+        alert("You have reached the maximum number of applications allowed.");
+        return;
+      }
+
+      // need to reframe this as the databse is changed
+      
+      // Check if the student-course mapping exists in active status
+      // const checkMappingResponse = await axios.get(
+      //   `${apiBaseUrl}/api/ce/oc/ActiveApplicationOnlineForValidation?student=${student}&course_code=${crname}`,
+      //   { withCredentials: true }
+      // );
+      // const { exists } = checkMappingResponse.data;
+
+      // if (exists) {
+      //   alert(
+      //     "The student is already registered for this course with an active status."
+      //   );
+      //   return;
+      // }
+
+      const formData = new FormData();
+      const type = 1;
+      const approval_status = 0;
+      formData.append("course_1", courseId_1);
+      formData.append("course_2", courseId_2);
+      formData.append("student", student);
+      formData.append("type", type);
+      formData.append("academic_year_1", academic_year_course_1);
+      formData.append("academic_year_2", academic_year_course_2);
+      formData.append("semester_1", semester_course_1);
+      formData.append("semester_2", semester_course_2);
+      formData.append("start_date_1", fmt_start_date_course_1);
+      formData.append("start_date_2", fmt_start_date_course_2);
+      formData.append("end_date_1", fmt_end_date_course_1);
+      formData.append("end_date_2", fmt_end_date_course_2);
+      formData.append("exam_date_1", fmt_exam_date_course_1);
+      formData.append("exam_date_2", fmt_exam_date_course_2);
+      formData.append("mark_1", marks_course_1);
+      formData.append("mark_2", marks_course_2);
+      formData.append("certificate_url_1", cerf_url_course_1);
+      formData.append("certificate_url_2", cerf_url_course_2);
+      formData.append("certificateFile_1", selectedPdfC1);
+      formData.append("certificateFile_2", selectedPdfC1);
+      formData.append("marksheet",marksheet)
+      formData.append("approval_status", approval_status);
+      formData.append("certficate_type_1", cerf_type_course_1);
+      formData.append("certficate_type_2", cerf_type_course_1);
+      formData.append("electiveId_1", elective1_id);
+      console.log( courseId_1,
+        courseId_2,
+        academic_year_course_1,
+        academic_year_course_2,
+        semester_course_1,
+        semester_course_2,
+        fmt_start_date_course_1,
+        fmt_end_date_course_1,
+        fmt_exam_date_course_1,
+        fmt_start_date_course_2,
+        fmt_end_date_course_2,
+        fmt_exam_date_course_2,
+        marks_course_1,
+        marks_course_2,
+        elective1_id,
+        selectedPdfC1,
+        selectedPdfC2,
+        cerf_type_course_1,
+        cerf_type_course_2,
+        marksheet,
+        cerf_url_course_1,
+        cerf_url_course_2);
+        const response = await axios.post(
+          `${apiBaseUrl}/api/ce/oc/onlineApply/special/create`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+  
+        console.log("Response:", response.data);
+        if (response.status === 200) {
+          console.log("Data successfully sent to the backend");
+          setDataRespModal(true);
+          setIsSuccess(true);
+          setResponseMessage("Course Applied Successfully");
+          // modifyPdf();
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          console.error("Unauthorized, logging out:", error);
+          handleLogout(); // Call logout function
+        } else {
+          console.error("Error sending data to the backend:", error);
+          setDataRespModal(true);
+          setIsSuccess(false);
+          setResponseMessage("Error While Applying the course");
+        }
+      }
   };
 
   // Final submission function for the multi course --- part 2 --- three 8 week courses
@@ -1380,14 +1510,14 @@ const OnlineForm = () => {
                           type="text"
                           className="inputbox"
                           value={certificateUrlExp}
-                          onchange={handleCerfUrlExp}
+                          onchange={(event)=>handleCerfUrls(event,setCertificateUrlExp)}
                         />
                       </div>
                       <div className="quesField">
                         <div className="inp">Type Of Certificate</div>
                         <div>
                           <Select
-                            onChange={handleCertificateType}
+                            onChange={(option)=>handleCertificateType(option,setCertificateType)}
                             className="textField"
                             styles={customStyles}
                             options={[
@@ -1404,7 +1534,7 @@ const OnlineForm = () => {
                         <div className="inp">Elective</div>
                         <Select
                           className="textField"
-                          onChange={handleElective}
+                          onChange={(option)=>handleElective(option,setElectiveId)}
                           options={ElectiveList}
                           styles={customStyles}
                           placeholder=""
@@ -1495,7 +1625,7 @@ const OnlineForm = () => {
                             type="text"
                             className="inputbox"
                             value={certificateUrlRp}
-                            onchange={handleCerfUrlRp}
+                            onchange={(event)=>handleCerfUrls(event,setCertificateUrlRp)}
                           />
                         </div>
                       </div>
@@ -1685,7 +1815,7 @@ const OnlineForm = () => {
       </Modal>
 
       {/* Multi Step Modal*/}
-      <Modal open={multiStepModalOpen} onClose={handleCloseMultiStepModal}>
+      <Modal open={multiStepModalOpen} onClose={handleCloseMultiStepModal} >
         <Box sx={style3}>
           <div>
             <div className="DelTit">Course Details</div>
@@ -1869,6 +1999,23 @@ const OnlineForm = () => {
                   </div>
                 </div>
                 <div className="quesField">
+                        <div className="inp">Type Of Certificate</div>
+                        <div>
+                          <Select
+                            onChange={(option)=>handleCertificateType(option,set_cerf_type_course_1)}
+                            className="textFieldMultiForm"
+                            styles={customStyles}
+                            options={[
+                              { value: 1, label: "Elite And Gold" },
+                              { value: 2, label: "Elite" },
+                              { value: 3, label: "Successfully Completed" },
+                            ]}
+                            isSearchable={false}
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                <div className="quesField">
                   <div className="inp">Marks in Certificate</div>
                   <div>
                     <InputBox
@@ -1883,10 +2030,19 @@ const OnlineForm = () => {
                   </div>
                 </div>
                 <div className="quesField">
+                        <div className="inp">Certificate URL</div>
+                        <div>
+                          <InputBox
+                            type="text"
+                            className="inputNumberMultiForm"
+                            value={cerf_url_course_1}
+                            onchange={(e)=>handleCerfUrls(e,set_cerf_url_course_1)}
+                          />
+                        </div>
+                      </div>
+                <div className="quesField">
                   <div className="inp">Upload Certificate </div>
                   <div className="Rp-btn-and-selected-file-specialCourse">
-                    <label htmlFor="pdf-upload" className="pdf-upload-button">
-                      Upload PDF
                       <input
                         id="pdf-upload"
                         type="file"
@@ -1894,17 +2050,15 @@ const OnlineForm = () => {
                         onChange={(event) =>
                           handleSpcialCoursesPdf(event, setSelectedPdfC1)
                         }
-                        style={{ display: "none" }}
                       />
-                    </label>
-                    <div style={{ margin: "5px", marginRight: "50px" }}>
+                    {/* <div style={{ margin: "5px", marginRight: "50px" }}>
                       {" "}
                       {selectedPdfC1 ? (
                         <p className="selectedFileName">{selectedPdfC1.name}</p>
                       ) : (
                         <p className="selectedFileName">No file selected</p>
                       )}{" "}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -2082,6 +2236,23 @@ const OnlineForm = () => {
                   </div>
                 </div>
                 <div className="quesField">
+                        <div className="inp">Type Of Certificate</div>
+                        <div>
+                          <Select
+                            onChange={(option)=>handleCertificateType(option,set_cerf_type_course_2)}
+                            className="textFieldMultiForm"
+                            styles={customStyles}
+                            options={[
+                              { value: 1, label: "Elite And Gold" },
+                              { value: 2, label: "Elite" },
+                              { value: 3, label: "Successfully Completed" },
+                            ]}
+                            isSearchable={false}
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                <div className="quesField">
                   <div className="inp">Marks in Certificate</div>
                   <div>
                     <InputBox
@@ -2096,10 +2267,19 @@ const OnlineForm = () => {
                   </div>
                 </div>
                 <div className="quesField">
+                        <div className="inp">Certificate URL</div>
+                        <div>
+                          <InputBox
+                            type="text"
+                            className="inputNumberMultiForm"
+                            value={cerf_url_course_2}
+                            onchange={(event)=>handleCerfUrls(event,set_cerf_url_course_2)}
+                          />
+                        </div>
+                      </div>
+                <div className="quesField">
                   <div className="inp">Upload Certificate </div>
                   <div className="Rp-btn-and-selected-file-specialCourse">
-                    <label htmlFor="pdf-upload" className="pdf-upload-button">
-                      Upload PDF
                       <input
                         id="pdf-upload"
                         type="file"
@@ -2107,17 +2287,15 @@ const OnlineForm = () => {
                         onChange={(event) =>
                           handleSpcialCoursesPdf(event, setSelectedPdfC2)
                         }
-                        style={{ display: "none" }}
                       />
-                    </label>
-                    <div style={{ margin: "5px", marginRight: "50px" }}>
+                    {/* <div style={{ margin: "5px", marginRight: "50px" }}>
                       {" "}
-                      {selectedPdfC1 ? (
-                        <p className="selectedFileName">{selectedPdfC1.name}</p>
+                      {selectedPdfC2 ? (
+                        <p className="selectedFileName">{selectedPdfC2.name}</p>
                       ) : (
                         <p className="selectedFileName">No file selected</p>
                       )}{" "}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -2295,6 +2473,23 @@ const OnlineForm = () => {
                   </div>
                 </div>
                 <div className="quesField">
+                        <div className="inp">Type Of Certificate</div>
+                        <div>
+                          <Select
+                            onChange={(option)=>handleCertificateType(option,set_cerf_type_course_3)}
+                            className="textFieldMultiForm"
+                            styles={customStyles}
+                            options={[
+                              { value: 1, label: "Elite And Gold" },
+                              { value: 2, label: "Elite" },
+                              { value: 3, label: "Successfully Completed" },
+                            ]}
+                            isSearchable={false}
+                            placeholder=""
+                          />
+                        </div>
+                      </div>
+                <div className="quesField">
                   <div className="inp">Marks in Certificate</div>
                   <div>
                     <InputBox
@@ -2309,10 +2504,19 @@ const OnlineForm = () => {
                   </div>
                 </div>
                 <div className="quesField">
+                        <div className="inp">Certificate URL</div>
+                        <div>
+                          <InputBox
+                            type="text"
+                            className="numberFieldMultiForm"
+                            value={cerf_url_course_3}
+                            onchange={(event)=>handleCerfUrls(event,set_cerf_url_course_3)}
+                          />
+                        </div>
+                      </div>
+                <div className="quesField">
                   <div className="inp">Upload Certificate </div>
                   <div className="Rp-btn-and-selected-file-specialCourse">
-                    <label htmlFor="pdf-upload" className="pdf-upload-button">
-                      Upload PDF
                       <input
                         id="pdf-upload"
                         type="file"
@@ -2320,17 +2524,15 @@ const OnlineForm = () => {
                         onChange={(event) =>
                           handleSpcialCoursesPdf(event, setSelectedPdfC3)
                         }
-                        style={{ display: "none" }}
                       />
-                    </label>
-                    <div style={{ margin: "5px", marginRight: "50px" }}>
+                    {/* <div style={{ margin: "5px", marginRight: "50px" }}>
                       {" "}
-                      {selectedPdfC1 ? (
-                        <p className="selectedFileName">{selectedPdfC1.name}</p>
+                      {selectedPdfC3 ? (
+                        <p className="selectedFileName">{selectedPdfC3.name}</p>
                       ) : (
                         <p className="selectedFileName">No file selected</p>
                       )}{" "}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -2350,7 +2552,7 @@ const OnlineForm = () => {
                   <div className="inp">Elective 1</div>
                   <Select
                     className="textFieldMultiForm"
-                    onChange={handleElective}
+                    onChange={(option)=>handleElective(option,setElective1_id)}
                     options={ElectiveList}
                     placeholder=""
                     isSearchable={false}
@@ -2361,13 +2563,34 @@ const OnlineForm = () => {
                     <div className="inp">Elective 2</div>
                     <Select
                       className="textFieldMultiForm"
-                      onChange={handleElective}
+                      onChange={(option)=>handleElective(option,setElective2_id)}
                       options={ElectiveList}
                       placeholder=""
                       isSearchable={false}
                     />
                   </div>
                 )}
+                <div className="quesField">
+                  <div className="inp">Upload Proof</div>
+                  <div className="Rp-btn-and-selected-file-specialCourse">
+                      <input
+                        id="pdf-upload"
+                        type="file"
+                        accept=".pdf"
+                        onChange={(event) =>
+                          handleSpcialCoursesPdf(event, setMarksheet)
+                        }
+                      />
+                    {/* <div style={{ margin: "5px", marginRight: "50px" }}>
+                      {" "}
+                      {selectedPdfC3 ? (
+                        <p className="selectedFileName">{selectedPdfC3.name}</p>
+                      ) : (
+                        <p className="selectedFileName">No file selected</p>
+                      )}{" "}
+                    </div> */}
+                  </div>
+                </div>
               </div>
             </Collapse>
 
