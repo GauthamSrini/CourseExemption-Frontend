@@ -6,8 +6,11 @@ import apiLoginHost from "../login/LoginApi";
 import HomeCard from "../../components/homecard/HomeCard";
 import axios from "axios";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import { DataGrid } from "@mui/x-data-grid"
 import rules from "/rules.png";
 import TreeStructure from "./stuffs/TreeStructure";
+import Table from "./Table";
+import CourseTable from "./CourseTable";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -202,6 +205,12 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <div style={{width:"90vw"}}>
+        <CourseTable/>
+      </div>
+
+
     </div>
   );
 };

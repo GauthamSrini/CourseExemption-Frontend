@@ -3,14 +3,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-y: scroll;
     /* width: 140vh; */
     width: 100%; /* Allow horizontal scrolling if needed */
 }
+
 
 /* Default styles */
 .tableMain {
     width: 100%;
     z-index: 0;
+    overflow-y: scroll;
 }
 
 /* DataGridStyles.css */

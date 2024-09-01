@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import OnlineTable from '../stuffs/OnlineTable'
 import '../styles/onlineHome.css'
 import { useNavigate } from 'react-router-dom'
+import CourseTable from '../CourseTable'
 
 const OnlineHome = () => {
   const navigate = useNavigate()
@@ -17,7 +18,8 @@ const OnlineHome = () => {
         </div>
         </div>
         <div className='hometable' >
-            <OnlineTable />
+            {/* <OnlineTable /> */}
+            <CourseTable/>
         </div>
     </div>
   )

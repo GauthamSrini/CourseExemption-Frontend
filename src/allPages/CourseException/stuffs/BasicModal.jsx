@@ -91,6 +91,12 @@ const BasicModal = ({
                 </div>
               </>
             )}
+            {rowData.elective ? (
+              <div className="field">
+                <div className="fldClm">Elective</div>
+                <div className="fldData">{rowData.elective}</div>
+              </div>
+            ) : null}
             <div className="field">
               <div className="fldClm">Course Type</div>
               <div className="fldData">{rowData.platform_name}</div>

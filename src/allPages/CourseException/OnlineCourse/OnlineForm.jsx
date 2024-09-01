@@ -119,6 +119,7 @@ const OnlineForm = () => {
   const [multiStepModalOpen, setMultiStepModalOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [switchingStages, setSwitchingStages] = useState(null);
+  const [mark_sheet_12_week,set_mark_sheet_12_week] = useState(null)
   // mostly the below usestates everything will runs only at the selection of the special case of exemption
   /// the below useStates is added based on the new added feature for two 8 weeks course and three 8 weeks course
 
@@ -638,6 +639,10 @@ const OnlineForm = () => {
     setSelectedPdfExp(event.target.files[0]);
   };
 
+  const handleMarkSheet = (event) => {
+    set_mark_sheet_12_week(event.target.files[0]);
+  }
+
   const handleFileChangeRp = (event) => {
     setSelectedPdfRp(event.target.files[0]);
   };
@@ -706,7 +711,8 @@ const OnlineForm = () => {
         !marks ||
         !certificateUrlRp ||
         !selectedPdfRp ||
-        !selectedAcademicYear
+        !selectedAcademicYear||
+        !certificateType
       ) {
         alert("Fill out all the Fields");
       } else {
@@ -724,6 +730,7 @@ const OnlineForm = () => {
         formData.append("mark", marks);
         formData.append("certificate_url", certificateUrlRp);
         formData.append("certificateFile", selectedPdfRp);
+        formData.append("certficate_type", certificateType);
         formData.append("approval_status", approval_status);
 
         console.log(formData);
@@ -774,7 +781,9 @@ const OnlineForm = () => {
         !certificateUrlExp ||
         !selectedPdfExp ||
         !selectedAcademicYear ||
-        !electiveId
+        !electiveId ||
+        !certificateType ||
+        !mark_sheet_12_week
       ) {
         alert("Fill out all the Fields");
         return;
@@ -789,24 +798,26 @@ const OnlineForm = () => {
       const { total } = activeApplicationsResponse.data;
 
       // Check if total applications are less than 4
-      if (total >= 4) {
+      if (total >= 4) { 
         alert("You have reached the maximum number of applications allowed.");
         return;
       }
 
-      // Check if the student-course mapping exists in active status
-      const checkMappingResponse = await axios.get(
-        `${apiBaseUrl}/api/ce/oc/ActiveApplicationOnlineForValidation?student=${student}&course_code=${crname}`,
-        { withCredentials: true }
-      );
-      const { exists } = checkMappingResponse.data;
+      // need to modify 
 
-      if (exists) {
-        alert(
-          "The student is already registered for this course with an active status."
-        );
-        return;
-      }
+      // Check if the student-course mapping exists in active status
+      // const checkMappingResponse = await axios.get(
+      //   `${apiBaseUrl}/api/ce/oc/ActiveApplicationOnlineForValidation?student=${student}&course_code=${crname}`,
+      //   { withCredentials: true }
+      // );
+      // const { exists } = checkMappingResponse.data;
+
+      // if (exists) {
+      //   alert(
+      //     "The student is already registered for this course with an active status."
+      //   );
+      //   return;
+      // }
 
       const formData = new FormData();
       const type = 1;
@@ -825,6 +836,7 @@ const OnlineForm = () => {
       formData.append("approval_status", approval_status);
       formData.append("certficate_type", certificateType);
       formData.append("electiveId", electiveId);
+      formData.append("marksheet",mark_sheet_12_week)
       console.log(formData);
 
       const response = await axios.post(
@@ -889,9 +901,9 @@ const OnlineForm = () => {
   // handling the close of response modal
   const handleRespModalClose = () => {
     setDataRespModal(false);
-    {
-      isSuccess ? navigate("/courseExcp") : navigate("/Online Course");
-    }
+    // {
+    //   isSuccess ? navigate("/courseExcp") : navigate("/Online Course");
+    // }
   };
 
   // setting up the dropdowon options
@@ -1133,11 +1145,11 @@ const OnlineForm = () => {
       formData.append("certificate_url_1", cerf_url_course_1);
       formData.append("certificate_url_2", cerf_url_course_2);
       formData.append("certificateFile_1", selectedPdfC1);
-      formData.append("certificateFile_2", selectedPdfC1);
+      formData.append("certificateFile_2", selectedPdfC2);
       formData.append("marksheet",marksheet)
       formData.append("approval_status", approval_status);
       formData.append("certficate_type_1", cerf_type_course_1);
-      formData.append("certficate_type_2", cerf_type_course_1);
+      formData.append("certficate_type_2", cerf_type_course_2);
       formData.append("electiveId_1", elective1_id);
       console.log( courseId_1,
         courseId_2,
@@ -1194,7 +1206,166 @@ const OnlineForm = () => {
   };
 
   // Final submission function for the multi course --- part 2 --- three 8 week courses
-  const handleApplicationMultiCoursepart2 = async () => {};
+  const handleApplicationMultiCoursepart2 = async () => {
+    try{
+      if (
+        !courseId_1 ||
+        !courseId_2 ||
+        !courseId_3 ||
+        !academic_year_course_1 ||
+        !academic_year_course_2 ||
+        !academic_year_course_3 ||
+        !semester_course_1 ||
+        !semester_course_2 ||
+        !semester_course_3 ||
+        !fmt_start_date_course_1 ||
+        !fmt_end_date_course_1 ||
+        !fmt_exam_date_course_1 ||
+        !fmt_start_date_course_2 ||
+        !fmt_end_date_course_2 ||
+        !fmt_exam_date_course_2 ||
+        !fmt_start_date_course_3 ||
+        !fmt_end_date_course_3 ||
+        !fmt_exam_date_course_3 ||
+        !marks_course_1 ||
+        !marks_course_2 ||
+        !marks_course_3 ||
+        !elective1_id ||
+        !elective2_id ||
+        !selectedPdfC1 ||
+        !selectedPdfC2 ||
+        !selectedPdfC3 ||
+        !cerf_type_course_1 ||
+        !cerf_type_course_2 ||
+        !cerf_type_course_3 ||
+        !marksheet ||
+        !cerf_url_course_1 ||
+        !cerf_url_course_2 ||
+        !cerf_url_course_3
+      ) {
+        alert("Fill out all the Fields");
+        return;
+      }
+      // Fetch active applications
+      const activeApplicationsResponse = await axios.get(
+        `${apiBaseUrl}/api/ce/oc/AllActiveApplications?student=${student}`,
+        { withCredentials: true }
+      );
+
+      const { total, nptel } = activeApplicationsResponse.data;
+
+      // Check if total applications are less than 4
+      if (total >= 3 || nptel>=1) {
+        alert("You have reached the maximum number of applications allowed.");
+        return;
+      }
+
+      const formData = new FormData();
+      const type = 2;
+      const approval_status = 0;
+      formData.append("course_1", courseId_1);
+      formData.append("course_2", courseId_2);
+      formData.append("course_3", courseId_3);
+      formData.append("student", student);
+      formData.append("type", type);
+      formData.append("academic_year_1", academic_year_course_1);
+      formData.append("academic_year_2", academic_year_course_2);
+      formData.append("academic_year_3", academic_year_course_3);
+      formData.append("semester_1", semester_course_1);
+      formData.append("semester_2", semester_course_2);
+      formData.append("semester_3", semester_course_3);
+      formData.append("start_date_1", fmt_start_date_course_1);
+      formData.append("start_date_2", fmt_start_date_course_2);
+      formData.append("start_date_3", fmt_start_date_course_3);
+      formData.append("end_date_1", fmt_end_date_course_1);
+      formData.append("end_date_2", fmt_end_date_course_2);
+      formData.append("end_date_3", fmt_end_date_course_3);
+      formData.append("exam_date_1", fmt_exam_date_course_1);
+      formData.append("exam_date_2", fmt_exam_date_course_2);
+      formData.append("exam_date_3", fmt_exam_date_course_3);
+      formData.append("mark_1", marks_course_1);
+      formData.append("mark_2", marks_course_2);
+      formData.append("mark_3", marks_course_3);
+      formData.append("certificate_url_1", cerf_url_course_1);
+      formData.append("certificate_url_2", cerf_url_course_2);
+      formData.append("certificate_url_3", cerf_url_course_3);
+      formData.append("certificateFile_1", selectedPdfC1);
+      formData.append("certificateFile_2", selectedPdfC2);
+      formData.append("certificateFile_3", selectedPdfC3);
+      formData.append("marksheet",marksheet)
+      formData.append("approval_status", approval_status);
+      formData.append("certficate_type_1", cerf_type_course_1);
+      formData.append("certficate_type_2", cerf_type_course_2);
+      formData.append("certficate_type_3", cerf_type_course_3);
+      formData.append("electiveId_1", elective1_id);
+      formData.append("electiveId_2", elective2_id);
+
+      console.log( courseId_1,
+        courseId_2,
+        courseId_3,
+        academic_year_course_1,
+        academic_year_course_2,
+        academic_year_course_3,
+        semester_course_1,
+        semester_course_2,
+        semester_course_3,
+        fmt_start_date_course_1,
+        fmt_end_date_course_1,
+        fmt_exam_date_course_1,
+        fmt_start_date_course_2,
+        fmt_end_date_course_2,
+        fmt_exam_date_course_2,
+        fmt_start_date_course_3,
+        fmt_end_date_course_3,
+        fmt_exam_date_course_3,
+        marks_course_1,
+        marks_course_2,
+        marks_course_3,
+        elective1_id,
+        elective2_id,
+        selectedPdfC1,
+        selectedPdfC2,
+        selectedPdfC3,
+        cerf_type_course_1,
+        cerf_type_course_2,
+        cerf_type_course_3,
+        marksheet,
+        cerf_url_course_1,
+        cerf_url_course_2,
+        cerf_url_course_3,
+      );
+        const response = await axios.post(
+          `${apiBaseUrl}/api/ce/oc/onlineApply/special/create`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        );
+  
+        console.log("Response:", response.data);
+        if (response.status === 200) {
+          console.log("Data successfully sent to the backend");
+          setDataRespModal(true);
+          setIsSuccess(true);
+          setResponseMessage("Course Applied Successfully");
+          // modifyPdf();
+        }
+    }
+     catch (error) {
+        if (error.response && error.response.status === 401) {
+          console.error("Unauthorized, logging out:", error);
+          handleLogout(); // Call logout function
+        } else {
+          console.error("Error sending data to the backend:", error);
+          setDataRespModal(true);
+          setIsSuccess(false);
+          setResponseMessage("Error While Applying the course");
+        }
+      }
+  };
 
   return (
     <div className="frm">
@@ -1469,6 +1640,23 @@ const OnlineForm = () => {
                     />
                   </div>
                 </div>
+                <div className="quesField">
+                        <div className="inp">Type Of Certificate</div>
+                        <div>
+                          <Select
+                            onChange={(option)=>handleCertificateType(option,setCertificateType)}
+                            className="textField"
+                            styles={customStyles}
+                            options={[
+                              { value: 1, label: "Elite And Gold" },
+                              { value: 2, label: "Elite" },
+                              { value: 3, label: "Successfully Completed" },
+                            ]}
+                            isSearchable={false}
+                            placeholder=""
+                          />
+                        </div>
+                </div>
                 {handleValidation() ? (
                   <div className="quesField">
                     <div className="inp">Do You Want Course Exemption</div>
@@ -1514,23 +1702,6 @@ const OnlineForm = () => {
                         />
                       </div>
                       <div className="quesField">
-                        <div className="inp">Type Of Certificate</div>
-                        <div>
-                          <Select
-                            onChange={(option)=>handleCertificateType(option,setCertificateType)}
-                            className="textField"
-                            styles={customStyles}
-                            options={[
-                              { value: 1, label: "Elite And Gold" },
-                              { value: 2, label: "Elite" },
-                              { value: 3, label: "Successfully Completed" },
-                            ]}
-                            isSearchable={false}
-                            placeholder=""
-                          />
-                        </div>
-                      </div>
-                      <div className="quesField">
                         <div className="inp">Elective</div>
                         <Select
                           className="textField"
@@ -1563,6 +1734,32 @@ const OnlineForm = () => {
                             {selectedPdfExp && (
                               <p className="selectedFileName">
                                 {selectedPdfExp.name}
+                              </p>
+                            )}{" "}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="quesDoc">
+                        <div className="inp">Upload Marksheet</div>
+                        <div className="Rp-btn-and-selected-file">
+                          <label
+                            htmlFor="pdf-upload-mark-sheet"
+                            className="pdf-upload-button"
+                          >
+                            Upload As PDF
+                            <input
+                              id="pdf-upload-mark-sheet"
+                              type="file"
+                              accept=".pdf"
+                              onChange={handleMarkSheet}
+                              style={{ display: "none" }}
+                            />
+                          </label>
+                          <div style={{ margin: "5px", marginRight: "50px" }}>
+                            {" "}
+                            {mark_sheet_12_week && (
+                              <p className="selectedFileName">
+                                {mark_sheet_12_week.name}
                               </p>
                             )}{" "}
                           </div>
@@ -2488,7 +2685,7 @@ const OnlineForm = () => {
                             placeholder=""
                           />
                         </div>
-                      </div>
+                </div>
                 <div className="quesField">
                   <div className="inp">Marks in Certificate</div>
                   <div>
@@ -2508,7 +2705,7 @@ const OnlineForm = () => {
                         <div>
                           <InputBox
                             type="text"
-                            className="numberFieldMultiForm"
+                            className="inputNumberMultiForm"
                             value={cerf_url_course_3}
                             onchange={(event)=>handleCerfUrls(event,set_cerf_url_course_3)}
                           />
