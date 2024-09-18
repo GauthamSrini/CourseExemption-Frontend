@@ -15,6 +15,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import axios from "axios";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import LoopIcon from "@mui/icons-material/Loop";
+import { useMediaQuery } from "@mui/material";
 import BasicModal from "../stuffs/BasicModal";
 import WarningIcon from "@mui/icons-material/Warning";
 
@@ -62,6 +63,7 @@ const OnlineReports = () => {
   const [notifyOpen, setNotifyOpen] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null); // use state for handling the filter menu
   const open = Boolean(anchorEl);
+  const isSmallScreen = useMediaQuery("(max-width: 800px)");
 
   // functions for filter menu
   const handleClick = (event) => {
@@ -227,23 +229,25 @@ const OnlineReports = () => {
     fetchUserData(selectedOption);
   };
 
+  let dynamicFlex = isSmallScreen ? null : 1;
   const columns = [
     {
       field: "student_name",
       headerName: "Student",
       headerClassName: "super-app-theme--header",
-      width: 130,
+      flex:dynamicFlex
     },
     {
       field: "register_number",
       headerName: "Register Number",
       headerClassName: "super-app-theme--header",
-      width: 130,
+      flex:dynamicFlex
     },
     {
       field: "branch",
       headerName: "Department",
       headerClassName: "super-app-theme--header",
+      flex:dynamicFlex
     },
     {
       field: "year",
@@ -260,126 +264,16 @@ const OnlineReports = () => {
             : "4th year"}
         </Box>
       ),
+      flex:dynamicFlex
     },
     {
-      field: "platform_name",
-      headerName: "Course Type",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "course_code",
-      headerName: "Course Code",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "course_name",
-      headerName: "Course Name",
-      headerClassName: "super-app-theme--header",
-      width: 150,
-    },
-    {
-      field: "duration",
-      headerName: "Duration",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-      renderCell: (params) => (
-        <div>
-          {params.value === 12
-            ? "12 Weeks"
-            : params.value === 4
-            ? "4 Weeks"
-            : "8 Weeks"}
-        </div>
-      ),
-    },
-    {
-      field: "credit",
-      headerName: "Credits",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-      renderCell: (params) => (
-        <div>
-          {params.value === 1
-            ? "1 Credit"
-            : params.value === 2
-            ? "2 Credits"
-            : "3 Credits"}
-        </div>
-      ),
-    },
-    {
-      field: "academic_year",
-      headerName: "Academic Year",
-      headerClassName: "super-app-theme--header",
-      width: 150,
-    },
-    {
-      field: "semester",
-      headerName: "Semester",
-      headerClassName: "super-app-theme--header",
-      width: 90,
-    },
-    {
-      field: "start_date",
-      headerName: "Start Date",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "end_date",
-      headerName: "End Date",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "exam_date",
-      headerName: "Exam Date",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "mark",
-      headerName: "Marks",
-      headerClassName: "super-app-theme--header",
-      width: 60,
-    },
-    {
-      field: "certificate_url",
-      headerName: "Certificate URL",
-      headerClassName: "super-app-theme--header",
-      width: 120,
-      renderCell: (params) => (
-        <a style={{ color: "black" }} href={params.value}>
-          {params.value}
-        </a>
-      ),
-    },
-    {
-      field: "certificate_path",
-      headerName: "Certificate",
-      headerClassName: "super-app-theme--header",
-      width: 120,
-      renderCell: (params) => (
-        <a
-          style={{ color: "black" }}
-          href={`${apiBaseUrl}/api/ce/oc/onlineApply/pdfs/${params.value}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Certificate
-        </a>
-      ),
-    },
-    {
-      field: "elective",
-      headerName: "Elective",
+      field: "elective1",
+      headerName: "Elective 1",
       headerClassName: "super-app-theme--header",
       width: 90,
       renderCell: (params) => (
         <Box>
-          {params.row.elective === undefined || params.row.elective === null ? (
+          {params.row.elective1 === undefined || params.row.elective1 === null ? (
             <p
               style={{
                 display: "flex",
@@ -388,19 +282,44 @@ const OnlineReports = () => {
                 width: "60px",
               }}
             >
-              NAN
+              NULL
             </p>
           ) : (
             params.value
           )}
         </Box>
       ),
+      flex:dynamicFlex
+    },
+    {
+      field: "elective2",
+      headerName: "Elective 2",
+      headerClassName: "super-app-theme--header",
+      width: 90,
+      renderCell: (params) => (
+        <Box>
+          {params.row.elective2 === undefined || params.row.elective2 === null ? (
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "60px",
+              }}
+            >
+              NULL
+            </p>
+          ) : (
+            params.value
+          )}
+        </Box>
+      ),
+      flex:dynamicFlex
     },
     {
       field: "view",
       headerName: "View",
       headerClassName: "super-app-theme--header",
-      width: 50,
       renderCell: (params) => (
         <Box
           style={{ cursor: "pointer" }}
@@ -409,51 +328,28 @@ const OnlineReports = () => {
           <RemoveRedEyeOutlinedIcon />
         </Box>
       ),
+      flex:dynamicFlex
     },
     {
-      field: "revoke",
-      headerName: "Revoke",
-      headerClassName: "super-app-theme--header",
-      width: 70,
+      field: 'revoke',
+      headerName: 'Revoke',
+      headerClassName: 'super-app-theme--header',
+      width:70,
       renderCell: (params) => (
-        <div style={{ display: "flex" }}>
-          <button
-            className="revokeBtn"
-            disabled={
-              params.row.approval_status === revokingStatus ? false : true
-            }
-          >
-            <div>
-              <LoopIcon
-                style={{
-                  color:
-                    params.row.approval_status === revokingStatus
-                      ? "var(--secondaryBlue)"
-                      : null,
-                }}
-                onClick={() =>
-                  handleRevoke(
-                    userId,
-                    params.row.id,
-                    params.row.register_number
-                  )
-                }
-              />
-            </div>
-          </button>
-          <div className="notify">
-            {params.row.approval_status > revokingStatus ? (
-              <CircleNotificationsIcon onClick={() => setNotifyOpen(true)} />
-            ) : null}
-          </div>
+        <div style={{display:"flex"}}>
+        <button className='revokeBtn' style={{color:params.row.approval_status===revokingStatus?"green":null}} disabled={params.row.approval_status===revokingStatus?false:true} >
+          <div><LoopIcon onClick={()=>handleRevoke(userId,params.row.id,params.row.register_number)} /></div>
+        </button>
+        <div className='notify'>{params.row.approval_status>revokingStatus?<CircleNotificationsIcon onClick={()=>setNotifyOpen(true)}/>:null}</div>
         </div>
       ),
-    },
+      flex:dynamicFlex
+    }
   ];
 
   const customLocaleText = {
-    noRowsLabel: `No Approved Applications for ${
-      selectedOption == "1" ? "Course Exemption" : "Rewards"
+    noRowsLabel: `No Applications for ${
+      selectedOption == 1 ? "Course Exemption" : "Rewards"
     } `,
   };
 
@@ -539,6 +435,7 @@ const OnlineReports = () => {
               {selectedRowData && (
                 <BasicModal
                   faculty={true}
+                  reviewed={true}
                   open={true} // Always keep the modal open when there's selectedRowData
                   handleClose={() => setSelectedRowData(null)}
                   rowData={selectedRowData}

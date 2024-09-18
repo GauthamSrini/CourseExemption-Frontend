@@ -1,19 +1,23 @@
 /* Apply these styles to the container of your table */
 .datagrid {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: stretch;
     overflow-y: scroll;
     /* width: 140vh; */
     width: 100%; /* Allow horizontal scrolling if needed */
 }
 
+.InternHomeMain{
+  display: flex;
+  flex-direction: column;
+}
 
 /* Default styles */
 .tableMain {
     width: 100%;
     z-index: 0;
     overflow-y: scroll;
+    flex-direction: column;
 }
 
 /* DataGridStyles.css */
@@ -33,4 +37,59 @@
 
 .custom-header{
   background-color: var(--background-2);
+}
+
+
+
+
+/* Style the pagination component */
+.ant-pagination {
+  padding: 0;
+  position: relative;
+  border: 0.5px solid;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top: 0;
+  border-color:var(--Bordercolor) !important; /* Give it a border */
+  padding: 10px; /* Add some padding */
+  margin: 0 !important; 
+  background-color: white; /* Ensure background matches table */
+}
+
+/* Ensure the pagination looks like part of the table */
+.ant-pagination-item,
+.ant-pagination-prev,
+.ant-pagination-next {
+  border-color:var(--Bordercolor) !important; 
+}
+
+/* Add border to the footer (pagination area) */
+.ant-table-footer {
+  border-color:var(--Bordercolor) !important; /* Add top border to footer */
+  background-color: white; /* Match the background color */
+}
+
+.ant-table-thead > tr > th.ant-table-cell {
+  background-color: transparent; /* Set the background color */
+  font-weight: normal; /* Remove bold style */
+  border-bottom: 1px solid var(--Bordercolor);
+  border-top: 1px solid var(--Bordercolor);
+  color: var(--heading-crsExp);
+}
+
+/* Change the border color for the table body cells */
+.ant-table-tbody > tr > td {
+  border-color:var(--Bordercolor) !important; /* Match the border color */
+}
+.custom-table{
+  height: 60vh;
+}
+.ant-table{
+  border-left: 0.5px solid var(--Bordercolor);
+  border-right: 0.5px solid var(--Bordercolor);
+}
+@media (max-width: 800px) {
+  .custom-table{
+    height: 60vh;
+  }
 }

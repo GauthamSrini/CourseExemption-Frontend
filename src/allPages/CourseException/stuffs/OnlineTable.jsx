@@ -17,7 +17,7 @@ const OnlineTable = () => {
   const [registerNumber, setRegisterNumber] = useState("");
   const [department, setDepartment] = useState("");
   const [data, setData] = useState([]);
-  const [approvalMembers, setApprovalMembers] = useState([]);
+  const [approvalMembers, setApprovalMembers] = useState([]); 
   const [error, setError] = useState(null);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const isLargeScreen = useMediaQuery("(min-width: 1600px)");

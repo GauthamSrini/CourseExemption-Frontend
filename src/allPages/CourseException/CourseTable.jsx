@@ -114,7 +114,7 @@ const CourseTable = () => {
               text = 'Unknown';
           }
   
-          return <Tag color={color}>{text}</Tag>;
+          return <button className="ApplyBtn" style={{ backgroundColor: color }}>{text}</button>;
         },
       },
   ];
@@ -122,10 +122,10 @@ const CourseTable = () => {
   // Define the expanded row content (showing Course 2 and Course 3 details)
   const expandedRowRender = (record) => {
     const expandedColumns = [
-        {
+      {
             title: 'Course Type',
             dataIndex: 'platform_name2',
-          },
+      },
       {
         title: 'Course Name',
         dataIndex: 'course_name2',
@@ -185,19 +185,22 @@ const CourseTable = () => {
     <Table
       columns={columns}
       dataSource={data} 
-      bordered
       className="custom-table"
       rowKey="id"
       expandable={{
         expandedRowRender,
         rowExpandable: (record) => record.course_name2 || record.course_name3, // Only make rows expandable if there is Course 2 or Course 3
       }}
-      
+      pagination={{
+        className: 'custom-pagination',
+        pageSize:5
+      }}
     />
     </div>
     </div>
     {selectedRowData && (
         <BasicModal
+          reviewed={true}
           open={true} // Always keep the modal open when there's selectedRowData
           handleClose={() => setSelectedRowData(null)}
           rowData={selectedRowData}

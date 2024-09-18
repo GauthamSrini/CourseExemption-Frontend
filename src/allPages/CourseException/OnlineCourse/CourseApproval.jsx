@@ -3,6 +3,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FacultyModal from "../stuffs/FacultyModal";
 import "../styles/courseApproval.css";
 import { DataGrid } from "@mui/x-data-grid";
+import BasicModal from "../stuffs/BasicModal";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { apiBaseUrl } from "../../../api/api";
@@ -10,6 +11,7 @@ import apiLoginHost from "../../login/LoginApi";
 import Menu from "@mui/material/Menu";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
+import { useMediaQuery } from "@mui/material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 
 const CourseApproval = () => {
@@ -19,9 +21,12 @@ const CourseApproval = () => {
   const [department, setDepartment] = useState(null);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
+  const [approvalMembers, setApprovalMembers] = useState([]);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null); // use state for handling the filter menu
   const open = Boolean(anchorEl);
+  const isSmallScreen = useMediaQuery("(max-width: 800px)");
+  
 
   // logout Function
   const handleLogout = async () => {
@@ -118,27 +123,54 @@ const CourseApproval = () => {
     }
   };
 
+  /// function to fetch the approval members
+  const ApprovalMembers = async () => {
+    try {
+      const response1 = await axios.get(
+        `${apiBaseUrl}/api/ce/oc/OnlineCourseApprovalMembers`,
+        {
+          withCredentials: true,
+        }
+      );
+      const jsonData1 = response1.data;
+      const members = jsonData1.map((item) => item.members);
+      members.push("Approved");
+      setApprovalMembers(members);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.error("Unauthorized, logging out:", error);
+        handleLogout(); // Call logout function
+      } else {
+        console.log("error in fetching approvalMembers", error);
+        setError(error.message);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUserData(selectedOption);
+    ApprovalMembers();
   }, []);
 
+  let dynamicFlex = isSmallScreen ? null : 1;
   const columns = [
     {
       field: "student_name",
       headerName: "Student",
       headerClassName: "super-app-theme--header",
-      width: 130,
+      flex:dynamicFlex
     },
     {
       field: "register_number",
       headerName: "Register Number",
       headerClassName: "super-app-theme--header",
-      width: 130,
+      flex:dynamicFlex
     },
     {
       field: "branch",
       headerName: "Department",
       headerClassName: "super-app-theme--header",
+      flex:dynamicFlex
     },
     {
       field: "year",
@@ -155,126 +187,16 @@ const CourseApproval = () => {
             : "4th year"}
         </Box>
       ),
+      flex:dynamicFlex
     },
     {
-      field: "platform_name",
-      headerName: "Course Type",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "course_code",
-      headerName: "Course Code",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "course_name",
-      headerName: "Course Name",
-      headerClassName: "super-app-theme--header",
-      width: 150,
-    },
-    {
-      field: "duration",
-      headerName: "Duration",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-      renderCell: (params) => (
-        <div>
-          {params.value === 12
-            ? "12 Weeks"
-            : params.value === 4
-            ? "4 Weeks"
-            : "8 Weeks"}
-        </div>
-      ),
-    },
-    {
-      field: "credit",
-      headerName: "Credits",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-      renderCell: (params) => (
-        <div>
-          {params.value === 1
-            ? "1 Credit"
-            : params.value === 2
-            ? "2 Credits"
-            : "3 Credits"}
-        </div>
-      ),
-    },
-    {
-      field: "academic_year",
-      headerName: "Academic Year",
-      headerClassName: "super-app-theme--header",
-      width: 150,
-    },
-    {
-      field: "semester",
-      headerName: "Semester",
-      headerClassName: "super-app-theme--header",
-      width: 90,
-    },
-    {
-      field: "start_date",
-      headerName: "Start Date",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "end_date",
-      headerName: "End Date",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "exam_date",
-      headerName: "Exam Date",
-      headerClassName: "super-app-theme--header",
-      width: 100,
-    },
-    {
-      field: "mark",
-      headerName: "Marks",
-      headerClassName: "super-app-theme--header",
-      width: 60,
-    },
-    {
-      field: "certificate_url",
-      headerName: "Certificate URL",
-      headerClassName: "super-app-theme--header",
-      width: 120,
-      renderCell: (params) => (
-        <a style={{ color: "black" }} href={params.value}>
-          {params.value}
-        </a>
-      ),
-    },
-    {
-      field: "certificate_path",
-      headerName: "Certificate",
-      headerClassName: "super-app-theme--header",
-      width: 120,
-      renderCell: (params) => (
-        <a
-          style={{ color: "black" }}
-          href={`${apiBaseUrl}/api/ce/oc/onlineApply/pdfs/${params.value}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Certificate
-        </a>
-      ),
-    },
-    {
-      field: "elective",
-      headerName: "Elective",
+      field: "elective1",
+      headerName: "Elective 1",
       headerClassName: "super-app-theme--header",
       width: 90,
       renderCell: (params) => (
         <Box>
-          {params.row.elective === undefined || params.row.elective === null ? (
+          {params.row.elective1 === undefined || params.row.elective1 === null ? (
             <p
               style={{
                 display: "flex",
@@ -283,13 +205,39 @@ const CourseApproval = () => {
                 width: "60px",
               }}
             >
-              NAN
+              NULL
             </p>
           ) : (
             params.value
           )}
         </Box>
       ),
+      flex:dynamicFlex
+    },
+    {
+      field: "elective2",
+      headerName: "Elective 2",
+      headerClassName: "super-app-theme--header",
+      width: 90,
+      renderCell: (params) => (
+        <Box>
+          {params.row.elective2 === undefined || params.row.elective2 === null ? (
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "60px",
+              }}
+            >
+              NULL
+            </p>
+          ) : (
+            params.value
+          )}
+        </Box>
+      ),
+      flex:dynamicFlex
     },
     {
       field: "view",
@@ -303,6 +251,7 @@ const CourseApproval = () => {
           <RemoveRedEyeOutlinedIcon />
         </Box>
       ),
+      flex:dynamicFlex
     },
   ];
 
@@ -390,11 +339,13 @@ const CourseApproval = () => {
 
               {/* modal for viewing and making decision as approve or reject the application */}
               {selectedRowData && (
-                <FacultyModal
+                <BasicModal
+                  faculty={true}
                   open={true} // Always keep the modal open when there's selectedRowData
                   handleClose={() => setSelectedRowData(null)}
                   rowData={selectedRowData}
-                  fetchUserData={fetchUserData}
+                  fetchApplications={fetchUserData}
+                  approvalMembers={approvalMembers}
                 />
               )}
             </div>

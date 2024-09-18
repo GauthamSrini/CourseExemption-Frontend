@@ -7,8 +7,13 @@ import InternshipTable from '../stuffs/InternshipTable';
 import axios from 'axios';
 
 const InternshipHome = () => {
-  const navigate = useNavigate()
-  const [firstData,setFirstData] = useState(true)
+  const navigate = useNavigate();
+  const [id, setId] = useState(1);
+
+  // Function to navigate to the InternshipForm and pass the id
+  const handleCreateClick = () => {
+    navigate('/InternshipForm', { state: { id } }); // Pass id as state
+  };
 
   return (
     <div className='tableDefault'>
@@ -16,26 +21,13 @@ const InternshipHome = () => {
         <div className="titlehm">
             <h4>Internship Home</h4>
         </div>
-        {!firstData &&
         <div className='createDiv' >
-            <button className='CreateBtn' onClick={()=>{navigate('/InternshipForm')}} >Create</button>
-        </div>}
+            <button className='CreateBtn' onClick={handleCreateClick} >Create Tracker</button>
+        </div>
         </div>
         <div className='hometable' >
-            <InternshipTable setFirstData={setFirstData}/>
+            <InternshipTable />
         </div>
-        {firstData && 
-        <div className='upldBTN' >
-            <div>
-                <h4>Upload Internship Here</h4>
-            </div>
-            <div>
-                <div className='card-add-icon' onClick={()=>{navigate('/InternshipForm')}} style={{cursor:'pointer'}}>
-                        <AddBoxIcon className='add-icon' sx={{ fontSize: 32 }}/>
-                </div>
-            </div>
-        </div> }
-        
     </div>
   )
 }

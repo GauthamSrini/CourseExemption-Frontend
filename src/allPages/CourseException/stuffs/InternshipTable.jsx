@@ -6,17 +6,20 @@ import { useNavigate } from "react-router-dom";
 import '../styles/table.css';
 import { apiBaseUrl } from "../../../api/api";
 import InternBasicModal from './InternBasicModal';
+import { useMediaQuery } from "@mui/material";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
-
-const InternshipTable = ({ setFirstData }) => {
+const InternshipTable = () => {
   const [data, setData] = useState([]);
+  const [trackerData,setTrackerData] = useState(null)
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [student,setStudent] = useState("7376222AD156")
   const [selectedRowData,setSelectedRowData] = useState(null)
   const [approvalMembers,setApprovalMembers] = useState([])
+  const [id,setId] = useState(2);
+  const isSmallScreen = useMediaQuery("(max-width: 800px)");
 
   const handleLogout = async () => {
     try {
@@ -44,7 +47,6 @@ const InternshipTable = ({ setFirstData }) => {
         setApprovalMembers(members)
         setData(response.data);
         setLoading(false);
-        setFirstData(false)
       } catch (error) {
         if (error.response && error.response.status === 401) {
           console.error("Unauthorized, logging out:", error);
@@ -58,10 +60,34 @@ const InternshipTable = ({ setFirstData }) => {
       }
     };
 
+    const fetchRegisteredTrackers = async () => {
+      try{
+        const response = await axios.get(`${apiBaseUrl}/api/ce/in/RegisteredInterntrackers?student=${student}`,{withCredentials:true});
+        setTrackerData(response.data)
+      }
+      catch(error){
+        if (error.response && error.response.status === 401) {
+          console.error("Unauthorized, logging out:", error);
+          handleLogout(); // Call logout function
+        }
+        else { 
+        console.log('Error fetching data:', error);
+      }
+      }
+    }
+
     fetchData();
+    fetchRegisteredTrackers();
   }, []);
 
+  // Function to navigate to the InternshipForm and pass the id
+  const handleApplyIntern = (row) => {
+    const row_id = row.id;
+    navigate('/InternshipForm', { state: { id , row_id } }); // Pass id as state
+  };
 
+
+  let dynamicFlex = isSmallScreen ? null : 1;
   const columns = [
     {
       field: 'company_name',
@@ -72,55 +98,140 @@ const InternshipTable = ({ setFirstData }) => {
           {params.value + '-' + params.row.company_address}
         </Box>
       ),
-      width:200
+      width:200,
+      flex:dynamicFlex
     },
     {
       field: 'mode',
       headerName: 'Mode',
       headerClassName: 'super-app-theme--header',
+      flex:dynamicFlex,
+      renderCell: (params) => (
+        <Box sx={{marginLeft:"10px"}} >{params.value}</Box>
+      ),
     },
     {
       field: 'start_date',
       headerName: 'Start Date',
       headerClassName: 'super-app-theme--header',
-      // valueGetter: (params) => formatDate(params.row.StartDate)
+      flex:dynamicFlex
     },
     {
       field: 'end_date',
       headerName: 'End Date',
       headerClassName: 'super-app-theme--header',
-      // valueGetter: (params) => formatDate(params.row.EndDate)
+      flex:dynamicFlex
     },
     {
       field: 'duration',
       headerName: 'Duration',
       headerClassName: 'super-app-theme--header',
+      flex:dynamicFlex
     },
     {
       field: 'academic_year',
       headerName: 'Academic Year',
       headerClassName: 'super-app-theme--header',
-      width:140
+      width:140,
+      flex:dynamicFlex
     },
     {
-      field: 'certificate_path',
-      headerName: 'Certificate',
+      field: 'aim_objective_path',
+      headerName: 'Aim Objective',
       headerClassName: 'super-app-theme--header',
       width:120,
       renderCell: (params) => (
-        <a style={{color:"black"}} href={`${apiBaseUrl}/api/ce/in/InternApply/pdfs/${params.value}`} target="_blank" rel="noopener noreferrer">
-          View Certificate
+        <a style={{color:"black"}} href={`${apiBaseUrl}/api/ce/in/InternTrackerApply/pdfs/${params.value}`} target="_blank" rel="noopener noreferrer">
+          View File
         </a>
       )
     },
     {
-      field: 'report_path',
-      headerName: 'Report',
+      field: "apply",
+      headerName: "Application",
+      headerClassName: "super-app-theme--header",
+      width: 150,
+      renderCell: (params) => (
+        <Box style={{ cursor: "pointer" }}>
+          {((params.row.tracker_approval === 1)&&(params.row.approval_status === 0)&&(params.row.certificate_path === null))? (
+            <div style={{ display: "flex" }}>
+              <button
+                className="ApplyBtn"
+                onClick={()=>handleApplyIntern(params.row)}
+                style={{ paddingLeft: "24px", paddingRight: "24px" }}
+              >
+                Apply
+              </button>
+            </div>
+          ) : params.row.tracker_approval === 0 ? (
+            <button className="ApplyBtn" style={{ backgroundColor: "gray" }}>
+              Initiated
+            </button>
+          ) : params.row.approval_status === -1 ? (
+            <button className="ApplyBtn" style={{ backgroundColor: "red" }}>
+              Rejected
+            </button>
+          ) : <button className="ApplyBtn" style={{ backgroundColor: "green" }}>
+            Applied
+          </button> }
+        </Box>
+      ),
+    },
+  ];
+
+  const ApplicationsColums = [
+    {
+      field: 'company_name',
+      headerName: 'Industry Details',
       headerClassName: 'super-app-theme--header',
       renderCell: (params) => (
-        <a style={{color:"black"}} href={`${apiBaseUrl}/api/ce/in/InternApply/pdfs/${params.value}`} target="_blank" rel="noopener noreferrer">
-          View Report
-        </a>
+        <Box >
+          {params.value + '-' + params.row.company_address}
+        </Box>
+      ),
+      width:200,
+      flex:dynamicFlex
+    },
+    {
+      field: 'mode',
+      headerName: 'Mode',
+      headerClassName: 'super-app-theme--header',
+      flex:dynamicFlex,
+      renderCell: (params) => (
+        <Box sx={{marginLeft:"10px"}} >{params.value}</Box>
+      ),
+    },
+    {
+      field: 'start_date',
+      headerName: 'Start Date',
+      headerClassName: 'super-app-theme--header',
+      flex:dynamicFlex
+    },
+    {
+      field: 'end_date',
+      headerName: 'End Date',
+      headerClassName: 'super-app-theme--header',
+      flex:dynamicFlex
+    },
+    {
+      field: 'duration',
+      headerName: 'Duration',
+      headerClassName: 'super-app-theme--header',
+      flex:dynamicFlex
+    },
+    {
+      field: 'academic_year',
+      headerName: 'Academic Year',
+      headerClassName: 'super-app-theme--header',
+      width:140,
+      flex:dynamicFlex
+    },
+     {
+      field: 'type',
+      headerName: 'Applied for',
+      headerClassName: 'super-app-theme--header',
+      renderCell: (params) => (
+        <div>{params.value==="1"?"Exemption":params.value==="0"?"Rewards":null}</div>
       )
     },
     {
@@ -133,6 +244,7 @@ const InternshipTable = ({ setFirstData }) => {
           <RemoveRedEyeOutlinedIcon />
         </Box>
       ),
+      flex:dynamicFlex
     },
     {
       field: 'approval_status',
@@ -163,8 +275,9 @@ const InternshipTable = ({ setFirstData }) => {
             : 'Unknown'}
         </Box>
       ),
+      flex:dynamicFlex
     },
-  ];
+  ]
 
   const customLocaleText = {
     noRowsLabel: 'You have not yet applied any internship reports yet',
@@ -174,18 +287,21 @@ const InternshipTable = ({ setFirstData }) => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className='tableMain'>
+    <div className='tableMain' style={{height:data.length>0?"500px":"100%"}} >
+      <div className="titl" style={{marginLeft:0,marginTop:0,marginBottom:"20px"}}>
+            <div>InternShip Trackers</div>
+      </div>
       <div className="datagrid">
         <DataGrid
           autoHeight
-          rows={data}
+          rows={trackerData}
           columns={columns}
           localeText={customLocaleText}
           getRowId={(row) => row.id}
           sx={{
             "--DataGrid-overlayHeight": "100px",
             "& .super-app-theme--header": {
-              color: "var(--heading-crsExp)", // Change header text color
+              color: "var(--heading-crsExp)", 
             },
             "& .MuiDataGrid-root": {
               width: "100%", // Ensure the DataGrid fills the container width
@@ -209,6 +325,21 @@ const InternshipTable = ({ setFirstData }) => {
         approvalMembers={approvalMembers}
       />
       )}
+      { data.length>0 &&
+      <div>
+      <div className="titl" style={{marginLeft:0,marginTop:"20px",marginBottom:"20px"}}>
+            <div>InternShip Applications</div>
+      </div>
+      <div className='datagrid'>
+        <DataGrid
+        autoHeight
+        rows={data}
+        columns={ApplicationsColums}
+        localeText={customLocaleText}
+        />
+      </div>
+    </div>
+}
     </div>
   );
 }

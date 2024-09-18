@@ -457,7 +457,7 @@ const CreditHome = () => {
                 Apply Exemption
               </div>
               <hr style={{marginBottom:"20px",marginTop:"15px"}}/>
-              {/* <div className="quesField">
+              <div className="quesField">
                 <div className="inp">Select Courses</div>
                 <div>
                   <Select
@@ -468,39 +468,9 @@ const CreditHome = () => {
                     onChange={handleSelectChange}
                     isOptionDisabled={isOptionDisabled} // Disable options when max selections reached
                   />
-                </div>
-              </div> */}
-              <div className="quesField">
-                <div className="inp">Course - 1</div>
-                <div>
-                  <Select
-                    className="oncreditField"
-                    onChange={handleSelectChange}
-                    options={namelist}
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <div className="quesField">
-                <div className="inp">Course - 2</div>
-                <div>
-                  <Select
-                    className="oncreditField"
-                    onChange={handleSelectChange}
-                    options={namelist}
-                    placeholder=""
-                  />
-                </div>
-              </div>
-              <div className="quesField">
-                <div className="inp">Course - 3</div>
-                <div>
-                  <Select
-                    className="oncreditField"
-                    onChange={handleSelectChange}
-                    options={namelist}
-                    placeholder=""
-                  />
+                  { selectedCourses.length < 3 &&
+                  <p style={{color:'red'}}>select 3 courses</p>
+                  }
                 </div>
               </div>
               <div className="quesField">

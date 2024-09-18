@@ -8,10 +8,12 @@ import apiLoginHost from "../../login/LoginApi"
 import dayjs from "dayjs";
 import axios from "axios";
 import Box from "@mui/material/Box";
+import { useLocation } from 'react-router-dom';
 import Modal from "@mui/material/Modal";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import { Navigate, useNavigate } from "react-router-dom";
+import { values } from "pdf-lib";
 //import { format } from 'date-fns';
 const style1 = {
   position: "absolute",
@@ -59,6 +61,7 @@ const InternshipForm = () => {
   const [amount, setAmount] = useState(null);
   const [courseException, setCourseException] = useState("");
   const [certificateFile, setCertificateFile] = useState(null);
+  const [aimObjectiveFile,setAimObjectiveFile] = useState(null)
   const [reportFile, setReportFile] = useState(null);
   const [elective, setElective] = useState(null);
   const [elctiveData, setElectiveData] = useState([]);
@@ -75,13 +78,19 @@ const InternshipForm = () => {
   const [totalActive, setTotalActive] = useState(null);
   const [approvedIntern, setApprovedIntern] = useState(null);
   const [internActive, setInternActive] = useState(null);
+  const [industryName,setIndustryName] = useState(null);
   const [totalExemption, setTotalExemption] = useState(null);
+  const [specificRecord, setSpecificRecord] = useState(null);
 
   const [durationError, setDurationError] = useState("");
   const [courseExceptionError, setCourseExceptionError] = useState("");
 
   const [studentData, setStudentData] = useState([]);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const { id } = location.state || {}; // Access the id from the state
+  const { row_id } = location.state || {};
 
   const handleLogout = async () => {
     try {
@@ -147,7 +156,39 @@ const InternshipForm = () => {
     fetchAllActive();
     fetchApprovedCount();
     fetchCompanies();
+    fetchRegisteredTrackers();
   }, []);
+
+  const fetchRegisteredTrackers = async () => {
+    try{
+      const response = await axios.get(`${apiBaseUrl}/api/ce/in/RegisteredInterntrackers?student=${student}`,{withCredentials:true});
+      // Extract the specific record based on row_id
+      const record = response.data.find((item) => item.id === row_id);
+      console.log(record);
+      
+      if (record) {
+        setSpecificRecord(record); // Set the specific record in the state
+        SetSelectedAcademicYear(record.academic_year)
+        setSemester(record.semester)
+        setMode(record.mode)
+        setIndustryName(record.company_name + " "+ record.company_address)
+        setStartDate(dayjs(record.start_date))
+        setEndDate(dayjs(record.end_date))
+        setAimObjectiveFile(record.aim_objective_path)
+      } else {
+        console.log("Record not found");
+      }
+    }
+    catch(error){
+      if (error.response && error.response.status === 401) {
+        console.error("Unauthorized, logging out:", error);
+        handleLogout(); // Call logout function
+      }
+      else { 
+      console.log('Error fetching data:', error);
+    }
+    }
+  }
 
   const fetcElectives = async () => {
     try {
@@ -285,14 +326,7 @@ const InternshipForm = () => {
 
     if (formValid) {
       const formData = new FormData();
-      formData.append("rollNo", rollNo);
-      formData.append("academic_year", selectedAcademicYear);
-      formData.append("semester", semester);
-      formData.append("mode", mode);
-      formData.append("Industry", Industry);
-      formData.append("StartDate", fmtStartDate);
-      formData.append("EndDate", fmtEndDate);
-      formData.append("duration", duration);
+      formData.append("id",row_id);
       formData.append("stipend", stipend);
       formData.append("amount", amount);
       formData.append("courseException", courseException);
@@ -316,7 +350,7 @@ const InternshipForm = () => {
           console.log("Data successfully sent to the backend");
           setDataRespModal(true);
           setIsSuccess(true);
-          setResponseMessage("Online Course Applied Successfully");
+          setResponseMessage("Internship Application Created Successfully");
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -327,19 +361,11 @@ const InternshipForm = () => {
         console.error("Error sending data to the backend:", error);
         setDataRespModal(true);
         setIsSuccess(false);
-        setResponseMessage("Error While Applying the online course..Retry it!");
+        setResponseMessage("Error While Applying Internship Application..Retry it!");
         }
       }
 
       console.log("Form submitted:", {
-        rollNo,
-        selectedAcademicYear,
-        semester,
-        mode,
-        Industry,
-        StartDate,
-        EndDate,
-        duration,
         stipend,
         amount,
         courseException,
@@ -349,6 +375,77 @@ const InternshipForm = () => {
       });
     }
   };
+
+  // Function to handle the Tracker Application
+  const handleInternTrackerApply = async (e) => {
+    e.preventDefault();
+    let formValid = true;
+
+    // List of mandatory fields
+    const mandatoryFields = [
+      { value: selectedAcademicYear, name: "Academic Year" },
+      { value: semester, name: "Semester" },
+      { value: mode, name: "Mode" },
+      { value: StartDate, name: "Start Date" },
+      { value: EndDate, name: "End Date" },
+      { value: duration, name: "Duration" },
+      { value: aimObjectiveFile, name: "Report File" },
+      { value: Industry, name: "Industry"}
+    ];
+
+    // Check if all mandatory fields are filled
+    for (const field of mandatoryFields) {
+      if (!field.value) {
+        alert(`Please fill the mandatory field: ${field.name}`);
+        formValid = false;
+        break;
+      }
+    }
+
+    if(formValid){
+      const formData = new FormData();
+      formData.append("student", student);
+      formData.append("academic_year", selectedAcademicYear);
+      formData.append("semester", semester);
+      formData.append("mode", mode);
+      formData.append("Industry", Industry);
+      formData.append("StartDate", fmtStartDate);
+      formData.append("EndDate", fmtEndDate);
+      formData.append("duration", duration);
+      formData.append("AimObjective", aimObjectiveFile);
+      try {
+        const response = await axios.post(
+          `${apiBaseUrl}/api/ce/in/InternTrackerApply/internshipTrackerApply`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials:true
+          }
+        );
+
+        console.log("Response:", response.data);
+        if (response.status === 200) {
+          console.log("Data successfully sent to the backend");
+          setDataRespModal(true);
+          setIsSuccess(true);
+          setResponseMessage("InternShip Tracker Creater Successfully");
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          console.error("Unauthorized, logging out:", error);
+          handleLogout(); // Call logout function
+        }
+        else { 
+        console.error("Error sending data to the backend:", error);
+        setDataRespModal(true);
+        setIsSuccess(false);
+        setResponseMessage("Error While Applying Internship Tracker..Retry it!");
+        }
+      }
+    }
+  }
 
   const handleStartDateChange = (date) => {
     if (EndDate && date && date > EndDate) {
@@ -404,6 +501,10 @@ const InternshipForm = () => {
     setReportFile(event.target.files[0]);
   };
 
+  const handleAimObjectiveFileChange = (event) => {
+    setAimObjectiveFile(event.target.files[0]);
+  };
+
   const handleAmountChange = (e) => {
     const input = e.target.value;
     if (!input || /^\d+$/.test(input)) {
@@ -414,7 +515,7 @@ const InternshipForm = () => {
   const handleRespModalClose = () => {
     setDataRespModal(false);
     {
-      isSuccess ? navigate("/courseExcp") : navigate("/Internship");
+      isSuccess ? navigate("/courseExcp") : navigate("/3");
     }
   };
 
@@ -462,6 +563,41 @@ const InternshipForm = () => {
     setReasonOpen(true);
   };
 
+  const customStyles = {
+    control: (baseStyles, state) => ({
+      ...baseStyles,
+      borderColor: "var(--Bordercolor)",
+      backgroundColor: "var(--textFieldBackground)",
+      // fontFamily: "sans-serif",
+      // backgroundColor: "var(--secondaryBlue)",
+      // marginRight: "20px",
+      color: "white",
+      // borderRadius: "8px",
+      // border: "none",
+      // boxShadow: state.isFocused ? "none" : base.boxShadow,
+      // borderColor: state.isFocused ? "transparent" : base.borderColor,
+      // "&:hover": {
+      //   borderColor: state.isFocused ? "transparent" : base.borderColor,
+      // },
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "var(--text-black)",
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "var(--background-2)", // Custom background color for the menu
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused
+        ? "var(--Bordercolor)" // Background color for hovered option
+        : state.isSelected
+        ? "var(--secondaryBlue)"
+        : null, // Default background color for options
+    }),
+  };
+
   return (
     <form id="mandatory" onSubmit={handleSubmit} className="frm">
       <div className="container">
@@ -476,6 +612,7 @@ const InternshipForm = () => {
                   <label className="inp">Student Name</label>
                   <Select
                     className="textField"
+                    styles={customStyles}
                     value={[{ value: studentName, label: studentName }]}
                     isDisabled={true}
                     placeholder=""
@@ -485,6 +622,7 @@ const InternshipForm = () => {
                   <label className="inp">Register Number</label>
                   <Select
                     className="textField"
+                    styles={customStyles}
                     value={[{ value: registerNumber, label: registerNumber }]}
                     isDisabled={true}
                     placeholder=""
@@ -494,6 +632,7 @@ const InternshipForm = () => {
                   <label className="inp">Branch of student</label>
                   <Select
                     className="textField"
+                    styles={customStyles}
                     value={[{ value: department, label: department }]}
                     isDisabled={true}
                     placeholder=""
@@ -524,13 +663,24 @@ const InternshipForm = () => {
                 <div className="quesField">
                   <div className="inp">Academic Year</div>
                   <div>
+                    {id===1?
                     <Select
                       onChange={handleAcademicYear}
+                      styles={customStyles}
                       placeholder=""
                       isSearchable
                       className="textField"
                       options={AcademicYearList}
-                    />
+                      isDisabled={id===1?false:true}
+                    />:
+                    <Select
+                        className="textField"
+                        styles={customStyles}
+                        isSearchable={false}
+                        value={{value:selectedAcademicYear,label:selectedAcademicYear}}
+                        disabled={true}
+                        placeholder=""
+                        />}
                   </div>
                 </div>
                 <div className="quesField">
@@ -543,13 +693,15 @@ const InternshipForm = () => {
                       }}
                       onChange={handleSem}
                       className="textField"
+                      styles={customStyles}
                       options={semesterOptions}
                       isSearchable={false}
+                      isDisabled={id===1?false:true}
                       placeholder=""
                     />
-                    {/* {selectedSem && <div> Semester : {selectedSem} </div>} */}
                   </div>
                 </div>
+                
                 <div className="quesField">
                   <label className="inp">Mode of Completion</label>
                   <Select
@@ -559,17 +711,49 @@ const InternshipForm = () => {
                       { value: "Online", label: "Online" },
                       { value: "Offline", label: "Offline" },
                     ]}
-                    isSearchable
+                    isDisabled={id===1?false:true}
+                    styles={customStyles}
+                    isSearchable={false}
                     className="textField"
                     menuPlacement="top"
                   />
                 </div>
-                {mode === "Online" && (
+
+                <div className="quesField">
+                        <label className="inp">Industry</label>
+                        {id === 1 ? 
+                        <Select
+                          onChange={(selectedOption) =>
+                            setIndustry(selectedOption.value)
+                          }
+                          options={industryData.map((industry) => ({
+                            value: industry.id,
+                            label:
+                              industry.company_name +
+                              " - " +
+                              industry.company_address,
+                          }))}
+                          placeholder=""
+                          styles={customStyles}
+                          isSearchable
+                          className="textField"
+                        /> : 
+                        <Select
+                        className="textField"
+                        styles={customStyles}
+                        value={{value:industryName,label:industryName}}
+                        disabled={true}
+                        placeholder=""
+                        />}
+                </div>
                   <div>
                     <div className="quesField">
                       <label className="inp">Start Date</label>
                       <DatePicker
                         value={StartDate}
+                        defaultValue={fmtStartDate}
+                        disabled={id===1?false:true}
+                        size="large"
                         onChange={handleStartDateChange}
                         className="textField"
                       />
@@ -578,41 +762,57 @@ const InternshipForm = () => {
                       <label className="inp">End Date</label>
                       <DatePicker
                         value={EndDate}
+                        size="large"
+                        disabled={id===1?false:true}
                         onChange={handleEndDateChange}
                         className="textField"
                       />
                     </div>
                     <div className="quesField">
                       <label className="inp">Duration in Days</label>
-                      <InputBox value={duration} disabled />
+                      <InputBox className="inputbox" value={duration} disabled={true} />
                     </div>
                   </div>
-                )}
-                {mode === "Offline" && (
-                  <div>
-                    <div className="quesField">
-                      <label className="inp">Start Date</label>
-                      <DatePicker
-                        value={StartDate}
-                        onChange={handleStartDateChange}
-                        className="textField"
-                      />
-                    </div>
-                    <div className="quesField">
-                      <label className="inp">End Date</label>
-                      <DatePicker
-                        value={EndDate}
-                        onChange={handleEndDateChange}
-                        className="textField"
-                      />
-                    </div>
-                    <div className="quesField">
-                      <label className="inp">Duration in Days</label>
-                      <InputBox value={duration} disabled={true} />
-                    </div>
+                  <div className="quesDoc">
+                        <div>Aim And Objective</div>
+                        <div style={{ display: "flex", flexDirection: "row" }}>
+                          <label
+                            htmlFor="pdf-upload-Aim"
+                            className="pdf-upload-button"
+                            disabled={id===1?false:true}
+                          >
+                            Upload as PDF
+                            <input
+                              id="pdf-upload-Aim"
+                              type="file"
+                              accept=".pdf"
+                              disabled={id===1?false:true}
+                              onChange={handleAimObjectiveFileChange}
+                              style={{ display: "none" }}
+                            />
+                          </label>
+                          <div style={{ margin: "5px" }}>
+                            {aimObjectiveFile && (
+                              <p>Selected file: {id===1 ? aimObjectiveFile.name : aimObjectiveFile}</p>
+                            )}
+                          </div>
+                        </div>
                   </div>
-                )}
-                {semester >= 3 && mode === "Offline" && handleValidation() && (
+                  { id === 1 &&
+                  <div className="container">
+                        <div className="row">
+                          <div className="RPsubmits">
+                            <button type="button" onClick={()=>navigate("/3")} className="expCancelBtn">
+                              Cancel
+                            </button>
+                            <button className="expCreateBtn" onClick={handleInternTrackerApply} >
+                              Create Tracker
+                            </button>
+                          </div>
+                        </div>
+                  </div>
+                  } 
+                {semester >= 3 && id === 2 && mode === "Offline" && handleValidation() && (
                   <div>
                     {parseInt(duration) > 45 && (
                       <div className="quesField">
@@ -637,7 +837,7 @@ const InternshipForm = () => {
           </div>
           <div className="space"> </div>
           <div className="col-md-6">
-            {semester &&
+            {semester && id === 2 && 
               semester < 3 &&
               (mode === "Offline" || mode === "Online") && (
                 <div>
@@ -653,24 +853,6 @@ const InternshipForm = () => {
                   <div className="Default">
                     <div className="dfinside">
                       <div>
-                        <div className="quesField">
-                          <label className="inp">Industry:</label>
-                          <Select
-                            onChange={(selectedOption) =>
-                              setIndustry(selectedOption.value)
-                            }
-                            options={industryData.map((industry) => ({
-                              value: industry.id,
-                              label:
-                                industry.company_name +
-                                " - " +
-                                industry.company_address,
-                            }))}
-                            placeholder=""
-                            isSearchable
-                            className="textField"
-                          />
-                        </div>
                         <div className="quesField">
                           <label className="inp">Stipend:</label>
                           <Select
@@ -691,7 +873,7 @@ const InternshipForm = () => {
                             <label className="inp">Amount:</label>
                             <InputBox
                               type="number"
-                              className="inputField"
+                              className="inputbox"
                               value={amount}
                               onchange={handleAmountChange}
                               min={0}
@@ -766,7 +948,7 @@ const InternshipForm = () => {
                   </div>
                 </div>
               )}
-            {semester >= 3 &&
+            {semester >= 3 && id === 2 &&
               (mode === "Online" || mode === "Offline") &&
               courseException !== "1" && (
                 <div>
@@ -787,24 +969,6 @@ const InternshipForm = () => {
                   <div className="Default">
                     <div className="dfinside">
                       <div className="quesField">
-                        <label className="inp">Industry:</label>
-                        <Select
-                          onChange={(selectedOption) =>
-                            setIndustry(selectedOption.value)
-                          }
-                          options={industryData.map((industry) => ({
-                            value: industry.id,
-                            label:
-                              industry.company_name +
-                              " - " +
-                              industry.company_address,
-                          }))}
-                          placeholder=""
-                          isSearchable
-                          className="textField"
-                        />
-                      </div>
-                      <div className="quesField">
                         <label className="inp">Stipend:</label>
                         <Select
                           value={{ value: stipend, label: stipend }}
@@ -824,7 +988,7 @@ const InternshipForm = () => {
                           <label className="inp">Amount:</label>
                           <InputBox
                             type="number"
-                            className="inputField"
+                            className="inputbox"
                             value={amount}
                             onchange={handleAmountChange}
                             min={0}
@@ -894,7 +1058,7 @@ const InternshipForm = () => {
                   </div>
                 </div>
               )}
-            {semester >= 3 &&
+            {semester >= 3 && id === 2 &&
               mode === "Offline" &&
               courseException === "1" &&
               parseInt(duration) >= 45 && (
@@ -904,25 +1068,6 @@ const InternshipForm = () => {
                   </div>
                   <div className="Default">
                     <div className="dfinside">
-                      <div className="quesField">
-                        <label className="inp">Industry:</label>
-                        <Select
-                          onChange={(selectedOption) =>
-                            setIndustry(selectedOption.value)
-                          }
-                          options={industryData.map((industry) => ({
-                            value: industry.id,
-                            label:
-                              industry.company_name +
-                              " - " +
-                              industry.company_address,
-                          }))}
-                          placeholder=""
-                          isSearchable
-                          className="textField"
-                        />
-                      </div>
-
                       <div className="quesField">
                         <label className="inp">Stipend:</label>
                         <Select
@@ -946,7 +1091,7 @@ const InternshipForm = () => {
                           <label className="inp">Amount:</label>
                           <InputBox
                             type="number"
-                            className="inputField"
+                            className="inputbox"
                             value={amount}
                             onchange={handleAmountChange}
                             min={0}
@@ -1019,7 +1164,7 @@ const InternshipForm = () => {
                       <div className="container">
                         <div className="row">
                           <div className="RPsubmits">
-                            <button type="button" onClick={()=>navigate("/1")} className="expCancelBtn">
+                            <button type="button" onClick={()=>navigate("/3")} className="expCancelBtn">
                               Cancel
                             </button>
                             <button type="submit" className="expCreateBtn">

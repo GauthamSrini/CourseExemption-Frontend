@@ -78,6 +78,7 @@ const InternFacultyModal = ({rowData, open, handleClose, fetchUserData}) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [certificatePath,setCertificatePath] = useState("");
     const [reportPath,setReportPath] = useState("")
+    const [isTracker,setIsTracker] = useState(false)
     const [confirmModal,setConfirmModal] = useState(false);
     const [mentorCode,setmentorCode] = useState("22IT137");
     const [selectedOption, setSelectedOption] = useState("");
@@ -114,13 +115,14 @@ const InternFacultyModal = ({rowData, open, handleClose, fetchUserData}) => {
         }
       }
       fetchUserData();
-      setCertificatePath(rowData.certificate_path)
+      if(rowData.certificate_path === null || rowData.certificate_path === undefined)
+      setIsTracker(true);
       setReportPath(rowData.report_path)
       setSelectedOption(rowData.type) 
     }, []);
 
       const handleApprove = () => {
-        axios.post(`${apiBaseUrl}/api/ce/in/ToApproveInternship`, { id: rowData.id, student: rowData.register_number , user_id: userId }, { withCredentials: true })
+        axios.post(`${apiBaseUrl}/api/ce/in/ToApproveInternship`, { id: rowData.id, student: rowData.register_number , user_id: userId, tracker:isTracker }, { withCredentials: true })
           .then(response => {
             console.log('Student approved successfully');
             setResponseMessage('Student approved successfully');
@@ -209,6 +211,7 @@ const InternFacultyModal = ({rowData, open, handleClose, fetchUserData}) => {
           <div>
           <div className='modal' >
           <div className="CourseTit">Course Details</div>
+          <hr/>
             <div className='field' >
                 <div className='fldClm' >Student</div>
                 <div className='fldData'>{rowData.student_name}</div>
@@ -258,6 +261,8 @@ const InternFacultyModal = ({rowData, open, handleClose, fetchUserData}) => {
                 <div className='fldClm'>Stipend</div>
                 <div className='fldData'>{rowData.amount}</div>
             </div>:null}
+            { !isTracker && 
+            <div>
             <div className='field'>
                 <div className='fldClm'>Report</div>
                 <div className='pdficon' onClick={()=>handleView(rowData.report_path)} ><InsertDriveFileIcon/><div>View</div></div>
@@ -266,6 +271,8 @@ const InternFacultyModal = ({rowData, open, handleClose, fetchUserData}) => {
                 <div className='fldClm'>Certificate</div>
                 <div className='pdficon' onClick={()=>handleView(rowData.certificate_path)} ><InsertDriveFileIcon/><div>View</div></div>
             </div>
+            </div>
+            }
             {rowData.elective && <div className='field'>
                 <div className='fldClm'>Elective</div>
                 <div className='fldData'>{rowData.elective}</div>

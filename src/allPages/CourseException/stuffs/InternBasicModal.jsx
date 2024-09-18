@@ -62,9 +62,10 @@ const InternBasicModal = ({ rowData, open, handleClose, faculty, approvalMembers
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className='BasicModal'>
-          <div className='modal'>
+        <Box sx={style}>
+          <div className="collapseDiv">
             <div className="CourseTit">Internship Details</div>
+            <hr />
             {faculty && <>
               <div className='field'>
                 <div className='fldClm'>Student</div>

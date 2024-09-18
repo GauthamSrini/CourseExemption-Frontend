@@ -2,7 +2,6 @@
 .modal{
     display: flex;
     flex-direction: column;
-    gap: 10px;
     font-family: 'Poppins', sans-serif;
     font-size: 15px;
     color: var(--text-black);
@@ -165,8 +164,25 @@
 .CourseTit{
     font-weight: bold;
     font-size: 17px;
-    
     color: var(--secondaryBlue);
+}
+
+.collapseDiv{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    color: var(--text-black);
+    margin-bottom: 20px;
+}
+
+.SubtileWithstepButtons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 @media (min-width: 1500px) {

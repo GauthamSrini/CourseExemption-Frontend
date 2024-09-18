@@ -9,7 +9,6 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { DataGrid } from "@mui/x-data-grid"
 import rules from "/rules.png";
 import TreeStructure from "./stuffs/TreeStructure";
-import Table from "./Table";
 import CourseTable from "./CourseTable";
 
 const Home = () => {
@@ -205,12 +204,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      <div style={{width:"90vw"}}>
-        <CourseTable/>
-      </div>
-
-
     </div>
   );
 };

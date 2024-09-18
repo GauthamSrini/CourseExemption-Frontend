@@ -73,7 +73,12 @@ const FacultyModal = ({ rowData, open, handleClose, fetchUserData }) => {
   const [responseMessage, setResponseMessage] = useState("");
   const [remarkResponseMsg, setRemarkResponseMsg] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [certificatePath, setCertificatePath] = useState("");
+  const [certificatePath1, setCertificatePath1] = useState("");
+  const [certificatePath2, setCertificatePath2] = useState("");
+  const [certificatePath3, setCertificatePath3] = useState("");
+  const [markSheetPath, setMarkSheetPath] = useState("");
+  const [step, setStep] = useState(1);
+  const [numberOfCourses, setNumberOfCourses] = useState(1);
   const [confirmModal, setConfirmModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -111,8 +116,22 @@ const FacultyModal = ({ rowData, open, handleClose, fetchUserData }) => {
       }
     };
     fetchUserData();
-    setCertificatePath(rowData.certificate_path);
+    setCertificatePath1(rowData.certificate_path1);
+    setCertificatePath2(rowData.certificate_path2);
+    setCertificatePath3(rowData.certificate_path3);
+    setMarkSheetPath(rowData.mark_sheet_path);
     setSelectedOption(rowData.type);
+    if((rowData.course_code2)!=null){
+      const val = numberOfCourses+1;
+      console.log(val);
+      setNumberOfCourses(val)
+    }
+    if(((rowData.course_code2)!=null)&&((rowData.course_code3)!=null))
+    {
+      const val = numberOfCourses+2;
+      console.log(val);
+      setNumberOfCourses(val)
+    }
   }, []);
 
   // Main function to Approve the student
@@ -201,9 +220,21 @@ const FacultyModal = ({ rowData, open, handleClose, fetchUserData }) => {
   };
 
   //Function for Handling PDF view
-  const handleView = () => {
+  const handleView = (certificatePath) => {
     const pdfURL = `${apiBaseUrl}/api/ce/oc/onlineApply/pdfs/${certificatePath}`;
     window.open(pdfURL, "_blank");
+  };
+  
+  // Function to increase the step of the displaying multiple courses if available
+  const handleStepIncrease = () => {
+    const ins = step + 1;
+    setStep(ins);
+  };
+
+  // Function to Decrease the step of the displaying multiple courses if available
+  const handleStepDecrease = () => {
+    const des = step - 1;
+    setStep(des);
   };
 
   return (
@@ -238,6 +269,46 @@ const FacultyModal = ({ rowData, open, handleClose, fetchUserData }) => {
                     : "4th Year "}
                 </div>
               </div>
+              <hr />
+              { numberOfCourses!=1 &&
+            <div className="SubtileWithstepButtons">
+              {" "}
+              <div>
+              {step > 1 ? (
+                <button
+                  className="MultiFormBackBUtton"
+                  onClick={handleStepDecrease}
+                  style={{paddingLeft:"0px"}}
+                >
+                  previous
+                </button>
+              ) : (
+                <button
+                  className="MultiFormBackBUtton"
+                  onClick={handleStepDecrease}
+                  style={{paddingLeft:"0px"}}
+                  disabled={true}
+                >
+                  previous
+                </button>
+              )}
+              </div>{" "}
+              <div className="coursesubtit">{step===1?"Course 1":step===2?"Course 2":((numberOfCourses===2)&&(step===3))?
+              "Elective Details":((numberOfCourses===3)&&(step===3))?"Course 3":"Elective Details"}</div>{" "}
+              <div>
+                {
+                  ((numberOfCourses === 2)&&(step < 3))?
+                  <div><button  className="MultiFormNextButton"
+                  onClick={handleStepIncrease} >Next</button></div>:
+                  ((numberOfCourses === 3)&&(step < 4))?
+                  <div><button   className="MultiFormNextButton"
+                  onClick={handleStepIncrease} >Next</button></div>:
+                  <div><button className="MultiFormBackBUtton"
+                  disabled={true}>Next</button></div>
+                }
+              </div>{" "}
+            </div>}
+            
               <div className="field">
                 <div className="fldClm">Course Type</div>
                 <div className="fldData">{rowData.platform_name}</div>
@@ -310,7 +381,7 @@ const FacultyModal = ({ rowData, open, handleClose, fetchUserData }) => {
               </div>
               <div className="field">
                 <div className="fldClm">Certificate</div>
-                <div className="pdficon" onClick={handleView}>
+                <div className="pdficon" onClick={()=>handleView(certificatePath1)}>
                   <InsertDriveFileIcon />
                   <div>View</div>
                 </div>
