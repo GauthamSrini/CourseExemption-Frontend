@@ -73,7 +73,8 @@ const InternshipCompanies = () => {
   const [deletingRow, setDeletingRow] = useState(null);
   const isLargeScreen = useMediaQuery('(min-width: 1500px)');
   const style = getResponsiveStyle(isLargeScreen);
-
+  const isSmallScreen = useMediaQuery("(max-width: 800px)");
+ 
   
   const handleEdit = (row) => {
     setSelectedRow(row);
@@ -189,13 +190,10 @@ const InternshipCompanies = () => {
 
   const fetchData = async (name) => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `${apiBaseUrl}/api/ce/in/InternCompanySearch?name=${name}`, { withCredentials: true }
       );
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const jsonData = await response.json();
+      const jsonData = response.data;
       const rowsWithSno = jsonData.map((row, index) => ({
         ...row,
         sno: index + 1, // Sequential number
@@ -216,27 +214,31 @@ const InternshipCompanies = () => {
     fetchData(name);
   }, []);
 
+  let dynamicFlex = isSmallScreen ? null : 1;
   const columns = [
     {
       field: "sno",
       headerName: "S.No",
       headerClassName: "super-app-theme--header",
+
     },
     {
       field: "company_name",
       headerName: "Company Name",
       headerClassName: "super-app-theme--header",
       width: 200,
+      flex:dynamicFlex
     },
     {
       field: "company_address",
       headerName: "Company Address",
       headerClassName: "super-app-theme--header",
       width: 300,
+      flex:dynamicFlex
     },
     {
       field: "edit",
-      headerName: "Edit",
+      headerName: "Edit Details",
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Box
@@ -247,10 +249,11 @@ const InternshipCompanies = () => {
           <EditNoteIcon />
         </Box>
       ),
+      flex:dynamicFlex
     },
     {
       field: "delete",
-      headerName: "Delete",
+      headerName: "Delete Company",
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
         <Box
@@ -261,6 +264,7 @@ const InternshipCompanies = () => {
           <DeleteIcon />
         </Box>
       ),
+      flex:dynamicFlex
     },
   ];
 

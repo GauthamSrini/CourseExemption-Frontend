@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
@@ -14,6 +14,7 @@ import Diversity3RoundedIcon from '@mui/icons-material/Diversity3Rounded';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import ListIcon from '@mui/icons-material/List';
 import BentoIcon from '@mui/icons-material/Bento';
+import { MyContext } from '../../context/MyContext';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import FiberManualRecordOutlinedIcon from '@mui/icons-material/FiberManualRecordOutlined';
 
@@ -24,6 +25,8 @@ const VerticalNavbar = ({ onClose }) => {
   const [creditOpen, setCreditOpen] = useState(false);
   const [addOnOpen, setAddOnOpen] = useState(false);
   const [internOpen, setInternOpen] = useState(false);
+  const {darkMode, setDarkMode} = useContext(MyContext);
+  
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -200,7 +203,7 @@ const VerticalNavbar = ({ onClose }) => {
       </ul>
       </div>
       <div>
-       <img src='/logo.svg' width={245} height={200}></img>
+       {darkMode?<img src='/logoDark.svg' width={245} height={200}/>:<img src='/logo.svg' width={245} height={200}></img>}
        </div>
     </div>
   );

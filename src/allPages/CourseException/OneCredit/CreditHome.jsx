@@ -143,7 +143,7 @@ const CreditHome = () => {
     const fetchElective = async () => {
       try {
         const type2 = await axios.get(
-          `${apiBaseUrl}/api/ce/AvailableElectives?student=${student}`,
+          `${apiBaseUrl}/api/ce/TotalElectives`,
           { withCredentials: true }
         );
         setElectiveData(type2.data);
@@ -458,7 +458,7 @@ const CreditHome = () => {
               </div>
               <hr style={{marginBottom:"20px",marginTop:"15px"}}/>
               <div className="quesField">
-                <div className="inp">Select Courses</div>
+                <div className="inp">Courses</div>
                 <div>
                   <Select
                     className="oncreditField"
@@ -469,7 +469,7 @@ const CreditHome = () => {
                     isOptionDisabled={isOptionDisabled} // Disable options when max selections reached
                   />
                   { selectedCourses.length < 3 &&
-                  <p style={{color:'red'}}>select 3 courses</p>
+                  <p style={{color:'red',fontSize:'15px'}}>select 3 courses</p>
                   }
                 </div>
               </div>

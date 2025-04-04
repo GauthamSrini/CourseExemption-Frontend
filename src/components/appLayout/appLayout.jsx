@@ -423,10 +423,12 @@ import PendingApprovalsAddon from "../../allPages/CourseException/Add-onHonorsMi
 import ApprovedStudentsAddon from "../../allPages/CourseException/Add-onHonorsMinors/ApprovedStudents";
 import RejectedStudentsAddon from "../../allPages/CourseException/Add-onHonorsMinors/RejectedStudents";
 import ProtectedRoute from "../RoutesValidation/ProtectedRoute";
+import { MyContext } from "../../context/MyContext";
 import Error404 from "../../allPages/CourseException/Error404";
 
 function AppLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
 
   const toggleVerticalNavbar = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -454,14 +456,19 @@ function LoginWrapper() {
 }
 
 function MainLayout({ toggleVerticalNavbar, closeVerticalNavbar, isMenuOpen }) {
+  const [darkMode, setDarkMode] = useState(false); 
   return (
     <div className="total-app-layout">
       <div className="h-navbar">
+        <MyContext.Provider value={{darkMode, setDarkMode}} >
         <HorizontalNavbar toggleVerticalNavbar={toggleVerticalNavbar} />
+        </MyContext.Provider>
       </div>
       <div className="v-nav-and-content">
         <div className={`v-navbar ${isMenuOpen ? "open" : ""}`}>
+        <MyContext.Provider value={{darkMode, setDarkMode}} >
           <VerticalNavbar onClose={closeVerticalNavbar} />
+        </MyContext.Provider>
         </div>
         <div className="content">
           <div className="content-with-margin">

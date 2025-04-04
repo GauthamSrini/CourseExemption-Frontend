@@ -901,6 +901,7 @@ const OnlineForm = () => {
   // handling the close of response modal
   const handleRespModalClose = () => {
     setDataRespModal(false);
+    navigate("/1")
     // {
     //   isSuccess ? navigate("/courseExcp") : navigate("/Online Course");
     // }

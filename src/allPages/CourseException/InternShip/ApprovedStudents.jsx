@@ -737,6 +737,24 @@ const ApprovedStudents = () => {
                   </div>
           </Box>
         </Modal>
+
+        {/* Response Modal for Success or Failure */}
+        <Modal
+                open={responseModalOpen}
+                onClose={handleCloseModal}
+                style={{ zIndex: 6000 }}
+              >
+                <Box sx={style1} className="success">
+                  <div>{responseMessage}</div>
+                  <div className="tick">
+                    {issuccess ? (
+                      <CheckCircleIcon style={{ color: "green" }} />
+                    ) : (
+                      <AnnouncementIcon style={{ color: "rgb(250, 41, 41)" }} />
+                    )}
+                  </div>
+                </Box>
+        </Modal>
       </div>
     </>
   );

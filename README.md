@@ -50,3 +50,6 @@ We’ve built this portal with high-level security measures, ensuring data integ
 **Scalable & Efficient**: Our solution is designed for scalability and efficiency, making it adaptable for use in other institutions.
 
 **Security at Its Core**: From authentication to API protection, we’ve implemented security measures that ensure user data is handled with the utmost care.
+
+**Dashboard View**
+![Dashboard Screenshot](./src/assets/images/screen1.jpg)

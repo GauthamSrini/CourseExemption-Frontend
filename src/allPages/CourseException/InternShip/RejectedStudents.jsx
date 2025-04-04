@@ -286,9 +286,10 @@ const RejectedStudents = () => {
     <>
     <div className='tableDefault'>
       <div className="titFac">
-        <div className="ti">
-          <h4>Rejected Courses - Internship</h4>
-        </div>
+          <div className="ti">
+            <h4 style={{ marginRight: "5px" }}>InternShip</h4>{" "}
+            <p> / Rejected Applications</p>
+          </div>
         <div  style={{ display: "flex", flexDirection: "row" }} >
          <h4 style={{ marginTop: "30px" }}>Filter</h4>
       <div
