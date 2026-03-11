@@ -38,10 +38,6 @@ We’ve built this portal with high-level security measures, ensuring data integ
 ## 💡Key Features
 - Automated Course Exemption Request Handling: Students can submit course exemption requests through an intuitive interface.
 
-- Admin Management Dashboard: Administrators can easily review, approve, or deny exemption requests.
-
-- Personalized Views: Each user gets a customized experience based on their role, ensuring a seamless workflow.
-
 - Session Management: Timed sessions ensure that users remain securely logged in without compromising their information.
 ## 🏆 What Makes This Special?
 
